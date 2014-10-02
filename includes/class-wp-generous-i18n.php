@@ -1,29 +1,17 @@
 <?php
 
 /**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that its ready for translation.
- *
- * @since      0.1.0
- *
- * @package    Generous
- * @subpackage Generous/includes
- */
-
-/**
  * Define the internationalization functionality.
  *
  * Loads and defines the internationalization files for this plugin
  * so that its ready for translation.
  *
  * @since      0.1.0
- * @package    Generous
- * @subpackage Generous/includes
+ * @package    WP_Generous
+ * @subpackage WP_Generous/includes
  * @author     Matthew Govaere <matthew@genero.us>
  */
-class Generous_i18n {
+class WP_Generous_i18n {
 
 	/**
 	 * The domain specified for this plugin.

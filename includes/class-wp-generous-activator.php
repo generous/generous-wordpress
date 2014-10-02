@@ -3,23 +3,14 @@
 /**
  * Fired during plugin activation.
  *
- * @since      0.1.0
- *
- * @package    Generous
- * @subpackage Generous/includes
- */
-
-/**
- * Fired during plugin activation.
- *
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      0.1.0
- * @package    Generous
- * @subpackage Generous/includes
+ * @package    WP_Generous
+ * @subpackage WP_Generous/includes
  * @author     Matthew Govaere <matthew@genero.us>
  */
-class Generous_Activator {
+class WP_Generous_Activator {
 
 	/**
 	 * Initiate activation.

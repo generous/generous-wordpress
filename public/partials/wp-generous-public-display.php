@@ -5,8 +5,8 @@
  *
  * @since      0.1.0
  *
- * @package    Generous
- * @subpackage Generous/public/partials
+ * @package    WP_Generous
+ * @subpackage WP_Generous/public/partials
  */
 ?>
 

@@ -1,26 +1,17 @@
 <?php
 
 /**
- * Register all actions and filters for the plugin
- *
- * @since      0.1.0
- *
- * @package    Generous
- * @subpackage Generous/includes
- */
-
-/**
  * Register all actions and filters for the plugin.
  *
  * Maintain a list of all hooks that are registered throughout
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Generous
- * @subpackage Generous/includes
+ * @package    WP_Generous
+ * @subpackage WP_Generous/includes
  * @author     Matthew Govaere <matthew@genero.us>
  */
-class Generous_Loader {
+class WP_Generous_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

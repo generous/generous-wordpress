@@ -5,8 +5,8 @@
  *
  * @since      0.1.0
  *
- * @package    Generous
- * @subpackage Generous/includes
+ * @package    WP_Generous
+ * @subpackage WP_Generous/includes
  */
 
 /**
@@ -14,11 +14,11 @@
  *
  * Defines the plugin name, version, and hooks.
  *
- * @package    Generous
- * @subpackage Generous/admin
+ * @package    WP_Generous
+ * @subpackage WP_Generous/admin
  * @author     Matthew Govaere <matthew@genero.us>
  */
-class Generous_Public {
+class WP_Generous_Public {
 
 	/**
 	 * The ID of this plugin.

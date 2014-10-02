@@ -3,22 +3,13 @@
 /**
  * The dashboard-specific functionality of the plugin.
  *
- * @since      0.1.0
- *
- * @package    Generous
- * @subpackage Generous/includes
- */
-
-/**
- * The dashboard-specific functionality of the plugin.
- *
  * Defines the plugin name, version, and hooks for styles/js and the menu.
  *
- * @package    Generous
- * @subpackage Generous/admin
+ * @package    WP_Generous
+ * @subpackage WP_Generous/admin
  * @author     Matthew Govaere <matthew@genero.us>
  */
-class Generous_Admin {
+class WP_Generous_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -92,7 +83,7 @@ class Generous_Admin {
 	 */
 	public function output_page_settings() {
 
-		include plugin_dir_path( __FILE__ ) . 'partials/generous-admin-display.php';
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-admin-display.php';
 
 	}
 
