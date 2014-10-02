@@ -1,0 +1,3 @@
+[submodule "generous-sdk-php"]
+	path = generous-sdk-php
+	url = git@github.com:generous/generous-sdk-php.git
