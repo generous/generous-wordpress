@@ -3,7 +3,6 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       https://genero.us/
  * @since      0.1.0
  *
  * @package    Generous
@@ -13,8 +12,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the dashboard-specific stylesheet and JavaScript.
+ * Defines the plugin name, version, and hooks.
  *
  * @package    Generous
  * @subpackage Generous/admin
@@ -61,19 +59,7 @@ class Generous_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Generous_Public_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Generous_Public_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->name, plugin_dir_url( __FILE__ ) . 'css/generous-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/css/generous-wp.css', array(), $this->version, 'all' );
 
 	}
 
@@ -84,19 +70,7 @@ class Generous_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Generous_Public_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Generous_Public_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . 'js/generous-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/js/generous-wp.js', array( 'jquery' ), $this->version, false );
 
 	}
 
