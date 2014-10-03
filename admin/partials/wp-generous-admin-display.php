@@ -18,13 +18,12 @@
 	Display Generous sliders on your website.
 	</p>
 
-	<h3>General Settings</h3>
+	<form method="post" action="options.php">
 
-	<label class="textinput" for="genrs_username">Username:</label>
-	<input class="textinput" type="text" id="genrs_username" name="generous[username]" value="">
+		<?php settings_fields($page['option_group']); ?>
+		<?php do_settings_sections($page['option_group']); ?>
+		<?php submit_button(); ?>
 
-	<p class="submit">
-		<input type="submit" class="button-primary" name="generous_submit" value="Save Changes">
-	</p>
+	</form>
 
 </div>

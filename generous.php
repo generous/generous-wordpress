@@ -34,9 +34,9 @@ register_deactivation_hook( __FILE__, array( 'WP_Generous_Deactivator', 'deactiv
  *
  * @since    0.1.0
  */
-function init_wp_generous() {
+function wp_generous_init() {
 	$plugin = new WP_Generous();
 	$plugin->run();
 }
 
-init_wp_generous();
+wp_generous_init();

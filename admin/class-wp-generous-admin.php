@@ -30,6 +30,15 @@ class WP_Generous_Admin {
 	private $version;
 
 	/**
+	 * The settings are responsible for maintaining callbacks for the admin settings.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Admin_Settings    $settings    Maintains callbacks for the admin settings.
+	 */
+	private $settings;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
@@ -40,6 +49,28 @@ class WP_Generous_Admin {
 
 		$this->name = $name;
 		$this->version = $version;
+
+		$this->load_dependencies();
+
+	}
+
+	/**
+	 * Load the required dependencies for the admin.
+	 *
+	 * Include the following files that make up the admin:
+	 *
+	 * - WP_Generous_Admin_Settings. Handles callbacks for the settings page.
+	 *
+	 * Create an instance of settings which will be used for callbacks.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 */
+	private function load_dependencies() {
+
+		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-admin-settings.php';
+
+		$this->settings = new WP_Generous_Admin_Settings($this->name, $this->version);
 
 	}
 
@@ -66,25 +97,49 @@ class WP_Generous_Admin {
 	}
 
 	/**
-	 * Register the custom menu for the dashboard.
+	 * Register the settings menu for the dashboard.
 	 *
 	 * @since    0.1.0
 	 */
-	public function custom_menu() {
+	public function add_settings_menu() {
 
-		add_menu_page( 'Generous', 'Generous', 'manage_options', 'generous', array( $this, 'output_page_settings' ) );
+		add_options_page(
+			'Generous', 
+			'Generous', 
+			'manage_options', 
+			$this->name, 
+			array( $this->settings, 'output_page' )
+		);
 
 	}
 
 	/**
-	 * Output the html for the settings page.
+	 * Register the default options settings for the dashboard.
 	 *
 	 * @since    0.1.0
 	 */
-	public function output_page_settings() {
+	public function register_settings_default() {
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-admin-display.php';
+		register_setting(
+			$this->settings->option_group,
+			$this->settings->option_group,
+			array( $this->settings, 'sanitize' )
+		);
 
+		add_settings_section(
+			'section_default',
+			'Default Settings',
+			'',
+			$this->settings->option_group
+		);
+
+		add_settings_field(
+			'username',
+			'Username',
+			array( $this->settings, 'output_input_username' ),
+			$this->settings->option_group,
+			'section_default'
+		);
 	}
 
 }
