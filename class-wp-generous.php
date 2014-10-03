@@ -40,6 +40,16 @@ class WP_Generous {
 	protected $loader;
 
 	/**
+	 * The loader that's responsible for maintaining and registering all hooks that power
+	 * the plugin.
+	 *
+	 * @since    0.1.0
+	 * @access   protected
+	 * @var      WP_Generous_Api    $api    Maintains all Generous API requests.
+	 */
+	protected $api;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -64,11 +74,13 @@ class WP_Generous {
 	 *
 	 * - WP_Generous_Loader. Orchestrates the hooks of the plugin.
 	 * - WP_Generous_i18n. Defines internationalization functionality.
+	 * - WP_Generous_Api. Sets endpoints for Generous API requests.
 	 * - WP_Generous_Admin. Defines all hooks for the dashboard.
 	 * - WP_Generous_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
+	 * Create an instance of the api which will be used for API requests.
 	 *
 	 * @since    0.1.0
 	 * @access   private
@@ -76,11 +88,13 @@ class WP_Generous {
 	private function load_dependencies() {
 
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-loader.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-api.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-i18n.php';
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-wp-generous-admin.php';
 		require_once plugin_dir_path( __FILE__ ) . 'public/class-wp-generous-public.php';
 
 		$this->loader = new WP_Generous_Loader();
+		$this->api = WP_Generous_Api::obtain();
 
 	}
 

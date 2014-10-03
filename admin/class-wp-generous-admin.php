@@ -70,7 +70,7 @@ class WP_Generous_Admin {
 
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-admin-settings.php';
 
-		$this->settings = new WP_Generous_Admin_Settings($this->name, $this->version);
+		$this->settings = new WP_Generous_Admin_Settings( $this->name, $this->version );
 
 	}
 

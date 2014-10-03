@@ -59,8 +59,9 @@ class WP_Generous_Admin_Settings {
 	 */
 	public function output_page() {
 
-		$page = array();
-		$page['option_group'] = $this->option_group;
+		$page = array(
+			'option_group' => $this->option_group
+		);
 
 		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-admin-display.php';
 
@@ -85,12 +86,14 @@ class WP_Generous_Admin_Settings {
 	 *
 	 * @since    0.1.0
 	 */
-	public function sanitize($input) {
+	public function sanitize( $input ) {
 
 		$results = array();
 
 		if( isset( $input['username'] ) ) {
+
 			$results['username'] = $input['username'];
+
 		}
 
 		return $results;

@@ -21,6 +21,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// Load Generous SDK
+if ( ! class_exists( 'Generous' ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'generous-sdk-php/src/Generous.php';
+}
+
 // Load initial dependencies
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-activator.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-deactivator.php';
