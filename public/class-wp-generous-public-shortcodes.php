@@ -16,7 +16,7 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      WP_Generous_Api    $api    Maintains requests to the Generous API.
+	 * @var      WP_Generous_Api              $api        Maintains requests to the Generous API.
 	 */
 	private $api;
 
@@ -33,11 +33,12 @@ class WP_Generous_Public_Shortcodes {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
+	 * @var      array    $options    The settings of the plugin.
 	 */
-	public function __construct() {
+	public function __construct( $options ) {
 
 		$this->api = WP_Generous_Api::obtain();
-		$this->output = new WP_Generous_Public_Output();
+		$this->output = new WP_Generous_Public_Output( $options );
 
 	}
 
@@ -45,7 +46,7 @@ class WP_Generous_Public_Shortcodes {
 	 * Load the specified shortcode attributes.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $attr       Specified shortcode attributes.
+	 * @var      array    $atts       Specified shortcode attributes.
 	 * @return   string               The rendered html to output.
 	 */
 	public function load( $atts ) {
@@ -67,7 +68,7 @@ class WP_Generous_Public_Shortcodes {
 
 		$data = $this->api->get_category( $id );
 
-		return $this->output->category_sliders($data['sliders']);		
+		return $this->output->category_sliders( $data['sliders'] );		
 
 	}
 

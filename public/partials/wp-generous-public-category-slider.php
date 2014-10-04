@@ -10,7 +10,7 @@
  */
 ?>
 
-<div class="generous-slider">
+<a class="generous-slider" href="<?php the_permalink(); ?>">
 	<div class="cover-photo">
 		<img src="[cover_photo]" />
 	</div>
@@ -20,4 +20,4 @@
 	<div class="suggested-price">
 		[suggested_price]
 	</div>
-</div>
+</a>

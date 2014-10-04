@@ -82,6 +82,20 @@ class WP_Generous_Admin_Settings {
 	}
 
 	/**
+	 * Output the input for permalink.
+	 *
+	 * @since    0.1.0
+	 */
+	public function output_input_permalink()
+	{
+
+		$options = get_option($this->option_group);
+
+		echo "<input name=\"{$this->option_group}[permalink]\" size=\"40\" type=\"text\" value=\"{$options['permalink']}\" />";
+
+	}
+
+	/**
 	 * Sanitize and validate fields.
 	 *
 	 * @since    0.1.0
@@ -93,6 +107,14 @@ class WP_Generous_Admin_Settings {
 		if( isset( $input['username'] ) ) {
 
 			$results['username'] = $input['username'];
+
+		}
+
+		if( isset( $input['permalink'] ) ) {
+
+			$results['permalink'] = $input['permalink'];
+
+			flush_rewrite_rules();
 
 		}
 

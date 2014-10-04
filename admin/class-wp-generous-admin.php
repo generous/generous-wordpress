@@ -140,6 +140,15 @@ class WP_Generous_Admin {
 			$this->settings->option_group,
 			'section_default'
 		);
+
+		add_settings_field(
+			'permalink',
+			'Permalink',
+			array( $this->settings, 'output_input_permalink' ),
+			$this->settings->option_group,
+			'section_default'
+		);
+
 	}
 
 }

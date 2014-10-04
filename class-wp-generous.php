@@ -16,7 +16,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string                $version         The current version of the plugin.
 	 */
 	protected $version = '0.1.0';
 
@@ -25,9 +25,18 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $WP_Generous    The string used to uniquely identify this plugin.
+	 * @var      string                $WP_Generous    	The string used to uniquely identify this plugin.
 	 */
 	protected $WP_Generous = 'generous';
+
+	/**
+	 * The id of the options which contains the plugin settings.
+	 *
+	 * @since    0.1.0
+	 * @access   protected
+	 * @var      string                $options_id      The id of the options.
+	 */
+	protected $options_id = 'generous_settings';
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +44,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      WP_Generous_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      WP_Generous_Loader    $loader          Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -45,7 +54,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      WP_Generous_Api    $api    Maintains all Generous API requests.
+	 * @var      WP_Generous_Api       $api             Maintains all Generous API requests.
 	 */
 	protected $api;
 
@@ -143,10 +152,15 @@ class WP_Generous {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new WP_Generous_Public( $this->get_Generous(), $this->get_version() );
+		$plugin_public = new WP_Generous_Public( $this->get_Generous(), $this->get_version(), $this->get_options() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'init', $plugin_public, 'add_shortcodes' );
+		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_rules' );
+		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_tags' );
+		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_endpoints' );
+		$this->loader->add_action( 'template_include', $plugin_public, 'add_custom_templates' );
 
 	}
 
@@ -188,6 +202,16 @@ class WP_Generous {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * Retrieve the version number of the plugin.
+	 *
+	 * @since     0.1.0
+	 * @return    string    The version number of the plugin.
+	 */
+	public function get_options() {
+		return get_option( $this->options_id );
 	}
 
 }
