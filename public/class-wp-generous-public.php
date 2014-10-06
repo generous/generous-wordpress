@@ -248,7 +248,7 @@ class WP_Generous_Public {
 	 * @return   string                The replaced, updated, or original title.
 	 */
 	public function custom_the_title( $title ) {   
-		return 'Store';
+		return isset( $this->options['title'] ) ? $this->options['title'] : 'Store';
 	}
 
 	/**
@@ -277,10 +277,10 @@ class WP_Generous_Public {
 	 */
 	public function add_custom_page( $posts ) {
 
-		global $$wp_query;
+		global $wp_query;
 
 		$slug = $this->options['permalink'];
-		$title = 'Store';
+		$title = isset( $this->options['title'] ) ? $this->options['title'] : 'Store';
 
 		// Check unknown category/slider id query
 		if ( $id = get_query_var( 'generous_page' ) ) {
@@ -289,7 +289,26 @@ class WP_Generous_Public {
 			$this->data->add( $id, $data );
 
 			if ( false === $this->data->get( $id ) ) {
+
 				return $this->set_404();
+
+			} else {
+
+				$post = $this->set_post( $slug, $data );
+
+				$posts = NULL;
+				$posts[] = $post;
+
+				$wp_query->is_page = true;
+				$wp_query->is_singular = true;
+				$wp_query->is_home = false;
+				$wp_query->is_archive = false;
+				$wp_query->is_category = false;
+
+				unset($wp_query->query["error"]);
+				$wp_query->query_vars["error"] = '';
+				$wp_query->is_404 = false;
+
 			}
 
 		// Check category query
@@ -359,15 +378,60 @@ class WP_Generous_Public {
 	 * @var      array     $message    The message to output, if allowed.
 	 * @return   array                 Empty posts.
 	 */
-	public function set_404($message = 'Page not found') {
+	public function set_404( $message = 'Page not found' ) {
 
 		global $wp_query;
 
 		$wp_query->set_404();
-		$wp_query->query_vars["error"] = $message;
+		$wp_query->query_vars['error'] = $message;
 		$wp_query->is_404 = true;
 
 		return array();
+
+	}
+
+	/**
+	 * Creates a temporary post-like object.
+	 *
+	 * @since    0.1.0
+	 * @var      string    $root_slug  The root of the plugins permalink.
+	 * @var      array     $data       The data to pull info from.
+	 * @return   object                The pretend post object.
+	 */
+	public function set_post( $root_slug, $data ) {
+
+		$post = new stdClass;
+
+		if( isset( $data ) ) {
+
+			if( isset( $data['title'] ) ) {
+				$post_title = $data['title'];
+			} else if ( isset( $data['slider'] ) ) {
+				$post_title = $data['slider']['title'];
+			}
+
+			if( isset( $data['slug'] ) ) {
+				$post_slug = $data['slug'];
+			} else if ( isset( $data['slider'] ) ) {
+				$post_slug = $data['slider']['slug'];
+			}
+
+			$post = new stdClass;
+			$post->ID = -1;
+			$post->post_author = 1;
+			$post->post_name = $root_slug . '/' .  $post_slug;
+			$post->guid = get_bloginfo( 'url' ) . '/' . $root_slug . '/' . $post_slug . '/';
+			$post->post_title = $post_title;
+			$post->post_status = 'static';
+			$post->comment_status = 'closed';
+			$post->ping_status = 'closed';
+			$post->comment_count = 0;
+			$post->post_date = current_time('mysql');
+			$post->post_date_gmt = current_time('mysql',1);
+
+		}
+
+		return $post;
 
 	}
 

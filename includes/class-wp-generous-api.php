@@ -72,6 +72,22 @@ class WP_Generous_Api {
 	}
 
 	/**
+	 * Get the account name for the specified account.
+	 *
+	 * @since     0.1.0
+	 * @return    array|false             Account data.
+	 */
+	public function get_account( $id = false ) {
+
+		if ( false === $id ) {
+			$id = $this->plugin_options['username'];
+		}
+
+		return $this->request( 'GET', "accounts/{$id}" );
+		
+	}
+
+	/**
 	 * Get the list of categories for the specified account.
 	 *
 	 * @since     0.1.0

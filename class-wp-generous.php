@@ -134,7 +134,7 @@ class WP_Generous {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new WP_Generous_Admin( $this->get_Generous(), $this->get_version() );
+		$plugin_admin = new WP_Generous_Admin( $this->get_Generous(), $this->get_version(), $this->api );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );

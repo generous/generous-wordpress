@@ -85,9 +85,9 @@ class WP_Generous_Link {
      */
     public function get() {
         if ( true === $this->permalinks ) {
-            return "/{$this->permalink}/{$this->query_val}";
+            return get_bloginfo( 'url' ) . "/{$this->permalink}/{$this->query_val}/";
         } else {
-            return "/?{$this->query_vars[ $this->query_var ]}={$this->query_val}";
+            return get_bloginfo( 'url' ) . "/?{$this->query_vars[ $this->query_var ]}={$this->query_val}";
         }
     }
 

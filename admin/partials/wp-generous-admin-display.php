@@ -18,6 +18,15 @@
 	Display Generous sliders on your website.
 	</p>
 
+	<hr>
+
+	<?php if ( isset( $page['options'], $page['options']['title'] ) && ( $page['options']['title'] !== '' ) ): ?>
+	<h2>
+		<b>Active Store:</b> <?php echo $page['options']['title']; ?>
+	</h2>
+	<hr>
+	<?php endif; ?>
+
 	<form method="post" action="options.php">
 
 		<?php settings_fields($page['option_group']); ?>

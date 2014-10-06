@@ -32,6 +32,15 @@ class WP_Generous_Admin {
 	private $version;
 
 	/**
+	 * Requests data from the Generous API.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Api               $api         Maintains all Generous API requests.
+	 */
+	private $api;
+
+	/**
 	 * The settings are responsible for maintaining callbacks for the admin settings.
 	 *
 	 * @since    0.1.0
@@ -47,10 +56,11 @@ class WP_Generous_Admin {
 	 * @var      string    $name       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $name, $version ) {
+	public function __construct( $name, $version, $api ) {
 
 		$this->name = $name;
 		$this->version = $version;
+		$this->api = $api;
 
 		$this->load_dependencies();
 
@@ -72,7 +82,7 @@ class WP_Generous_Admin {
 
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-admin-settings.php';
 
-		$this->settings = new WP_Generous_Admin_Settings( $this->name, $this->version );
+		$this->settings = new WP_Generous_Admin_Settings( $this->name, $this->version, $this->api );
 
 	}
 

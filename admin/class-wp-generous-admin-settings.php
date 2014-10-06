@@ -18,7 +18,7 @@ class WP_Generous_Admin_Settings {
 	 *
 	 * @since    0.1.0
 	 * @access   public
-	 * @var      string    $option_group    The name of the option group.
+	 * @var      string                $option_group  The name of the option group.
 	 */
 	public $option_group = 'generous_settings';
 	
@@ -27,7 +27,7 @@ class WP_Generous_Admin_Settings {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $name    The ID of this plugin.
+	 * @var      string                $name          The ID of this plugin.
 	 */
 	private $name;
 
@@ -36,9 +36,18 @@ class WP_Generous_Admin_Settings {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string                $version       The current version of this plugin.
 	 */
 	private $version;
+
+	/**
+	 * Requests data from the Generous API.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Api       $api           Maintains all Generous API requests.
+	 */
+	private $api;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -47,10 +56,11 @@ class WP_Generous_Admin_Settings {
 	 * @var      string    $name       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $name, $version ) {
+	public function __construct( $name, $version, $api ) {
 
 		$this->name = $name;
 		$this->version = $version;
+		$this->api = $api;
 
 	}
 
@@ -62,7 +72,8 @@ class WP_Generous_Admin_Settings {
 	public function output_page() {
 
 		$page = array(
-			'option_group' => $this->option_group
+			'option_group' => $this->option_group,
+			'options' => get_option($this->option_group)
 		);
 
 		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-admin-display.php';
@@ -112,7 +123,26 @@ class WP_Generous_Admin_Settings {
 		$results = array();
 
 		if ( isset( $input['username'] ) ) {
-			$results['username'] = $input['username'];
+
+			if ( $input['username'] !== '' ) {
+				$data = $this->api->get_account( $input['username'] );
+
+				if ( false !== data ) {
+
+					$results['username'] = $input['username'];
+
+					if ( isset( $data['name'] ) ) {
+						$results['title'] = $data['name'];
+					} else if ( isset( $data['title'] ) ) {
+						$results['title'] = $data['title'];
+					}
+
+				}
+			} else {
+				$results['username'] = '';
+				$results['title'] = '';
+			}
+
 		}
 
 		if ( isset( $input['permalink'] ) ) {
