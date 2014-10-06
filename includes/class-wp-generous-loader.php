@@ -7,6 +7,8 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
+ * @since      0.1.0
+ *
  * @package    WP_Generous
  * @subpackage WP_Generous/includes
  * @author     Matthew Govaere <matthew@genero.us>

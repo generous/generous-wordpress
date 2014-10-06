@@ -5,6 +5,8 @@
  *
  * Defines and sorts shortcodes.
  *
+ * @since      0.1.0
+ *
  * @package    WP_Generous
  * @subpackage WP_Generous/public
  * @author     Matthew Govaere <matthew@genero.us>
@@ -34,10 +36,11 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @var      array    $options    The settings of the plugin.
+	 * @var      array    $api        Maintains all Generous API requests.
 	 */
-	public function __construct( $options ) {
+	public function __construct( $options, $api ) {
 
-		$this->api = WP_Generous_Api::obtain();
+		$this->api = $api;
 		$this->output = new WP_Generous_Public_Output( $options );
 
 	}
@@ -51,8 +54,99 @@ class WP_Generous_Public_Shortcodes {
 	 */
 	public function load( $atts ) {
 
-		if( isset( $atts['category'] ) ) {
-			return $this->category( $atts['category'] );
+		$shortcodes = array(
+			'store'      => array($this, 'store'),
+			'categories' => array($this, 'categories'),
+			'page'       => array($this, 'page'),
+			'category'   => array($this, 'category'),
+			'slider'     => array($this, 'slider'),
+		);
+
+		$is_assoc = (bool)count(array_filter(array_keys($atts), 'is_string'));
+
+		if ( ! $is_assoc ) {
+			foreach( $atts as $key => $value) {
+				foreach($shortcodes as $code => $func) {
+					if( $value == $code ) {
+						return $this->wrapper($func, $atts);
+					}
+				}
+			}
+		} else {
+			foreach($shortcodes as $code => $func) {
+				if( isset( $atts[$code] ) ) {
+					return $this->wrapper($func, $atts);
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Wraps the shortcode with any necessary elements, and checks for shortcodes.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @return   string              The rendered html to output.
+	 */
+	private function wrapper( $func, $atts ) {
+
+		$html = call_user_func_array( $func, $atts );
+
+		return do_shortcode( $html );
+
+	}
+
+	/**
+	 * Output store shortcode.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @return   string              The rendered html to output.
+	 */
+	private function store($atts) {
+
+		return $this->output->store();
+
+	}
+
+	/**
+	 * Output categories shortcode.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @return   string              The rendered html to output.
+	 */
+	private function categories() {
+
+		$data = $this->api->get_categories();
+
+		if( false !== $data ) {
+			return $this->output->categories_list( $data );
+		} else {
+			$this->output->error();
+		}
+
+	}
+
+	/**
+	 * Output category or slider shortcode.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      string    $id       Specified category id.
+	 * @return   string              The rendered html to output.
+	 */
+	private function page( $id ) {
+
+		$data = $this->api->get_unknown( $id );
+
+		if( false !== $data ) {
+			if( isset( $data['sliders'] ) ) {
+				return $this->output->sliders_list( $data );
+			} else if( isset( $data['slider'] ) ) {
+				return $this->output->slider( $data['slider'] );
+			}
 		}
 
 	}
@@ -61,6 +155,7 @@ class WP_Generous_Public_Shortcodes {
 	 * Output category shortcode.
 	 *
 	 * @since    0.1.0
+	 * @access   private
 	 * @var      string    $id       Specified category id.
 	 * @return   string              The rendered html to output.
 	 */
@@ -68,7 +163,27 @@ class WP_Generous_Public_Shortcodes {
 
 		$data = $this->api->get_category( $id );
 
-		return $this->output->category_sliders( $data['sliders'] );		
+		if( false !== $data ) {
+			return $this->output->sliders_list( $data );  
+		}
+
+	}
+
+	/**
+	 * Output slider shortcode.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      string    $id       Specified category id.
+	 * @return   string              The rendered html to output.
+	 */
+	private function slider( $id ) {
+
+		$data = $this->api->get_slider( $id );
+
+		if( false !== $data ) {
+			return $this->output->slider( $data['slider'] );
+		}   
 
 	}
 

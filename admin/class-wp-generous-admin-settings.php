@@ -5,6 +5,8 @@
  *
  * Maintains general callbacks for the admin settings.
  *
+ * @since      0.1.0
+ *
  * @package    WP_Generous
  * @subpackage WP_Generous/admin
  * @author     Matthew Govaere <matthew@genero.us>
@@ -65,6 +67,11 @@ class WP_Generous_Admin_Settings {
 
 		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-admin-display.php';
 
+		// Hacky workaround to make sure rewrite rules are refreshed.
+		if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) {
+			flush_rewrite_rules();
+		}
+
 	}
 
 	/**
@@ -104,18 +111,12 @@ class WP_Generous_Admin_Settings {
 
 		$results = array();
 
-		if( isset( $input['username'] ) ) {
-
+		if ( isset( $input['username'] ) ) {
 			$results['username'] = $input['username'];
-
 		}
 
-		if( isset( $input['permalink'] ) ) {
-
+		if ( isset( $input['permalink'] ) ) {
 			$results['permalink'] = $input['permalink'];
-
-			flush_rewrite_rules();
-
 		}
 
 		return $results;

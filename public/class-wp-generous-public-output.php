@@ -3,6 +3,8 @@
 /**
  * Maintains methods to convert data to public html templates.
  *
+ * @since      0.1.0
+ *
  * @package    WP_Generous
  * @subpackage WP_Generous/public
  * @author     Matthew Govaere <matthew@genero.us>
@@ -16,16 +18,7 @@ class WP_Generous_Public_Output {
 	 * @access   private
 	 * @var      string                               $permalink         The root endpoint of the permalink structure.
 	 */
-	private $permalink;
-
-	/**
-	 * Whether or not permalinks are active.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      bool                                 $permalinks        Whether or not permalinks are active.
-	 */
-	private $permalinks;
+	private static $permalink;
 
 	/**
 	 * Converts filters to specified data.
@@ -34,7 +27,7 @@ class WP_Generous_Public_Output {
 	 * @access   private
 	 * @var      WP_Generous_Public_Output_Filters    $filters           Maintains methods to convert filters to data.
 	 */
-	private $filters;
+	private static $filters;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -42,11 +35,47 @@ class WP_Generous_Public_Output {
 	 * @since    0.1.0
 	 * @var      string                               $options           The settings of the plugin.
 	 */
-	public function __construct( $options ) {
+	public function __construct( $options = false ) {
 
-		$this->permalink = $options['permalink'];
-		$this->permalinks = ( get_option( 'permalink_structure' ) != '' ) ? true : false;
-		$this->filters = new WP_Generous_Public_Output_Filters();
+		if ( false !== $options ) {
+
+			self::$permalink = $options['permalink'];
+			self::$filters = new WP_Generous_Public_Filters();
+
+		}
+
+	}
+
+	/**
+	 * Outputs a store.
+	 *
+	 * @since    0.1.0
+	 * @return   string                      The gathered html to output.
+	 */
+	public function store() {
+
+		ob_start();
+
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-store.php';
+
+		return ob_get_clean();
+
+	}
+
+	/**
+	 * Outputs list of categories.
+	 *
+	 * @since    0.1.0
+	 * @var      array    $data              Data from the specified slider.
+	 * @return   string                      The gathered html to output.
+	 */
+	public function slider( $data ) {
+
+		ob_start();
+
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-slider.php';
+
+		return self::$filters->slider( $data, ob_get_clean() );
 
 	}
 
@@ -54,31 +83,71 @@ class WP_Generous_Public_Output {
 	 * Outputs sliders from a category.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data       Slider data from the specified category.
-	 * @return   string               The gathered html to output.
+	 * @var      array    $data              Data from the specified category.
+	 * @return   string                      The gathered html to output.
 	 */
-	public function category_sliders( $data ) {
+	public function sliders_list( $data ) {
 
-		$html = "";
+		$post = WP_Generous_Public_Posts::obtain( 'sliders', $data['sliders'] );
 
-		foreach( $data as $slider ) {
-			
-			$link = new WP_Generous_Public_Output_Link( $this->permalinks );
-			$link->permalink = $this->permalink;
-			$link->query_var = 'generous_slider';
-			$link->query_val = $slider['slug'];
+		ob_start();
 
-			add_filter( 'the_permalink', array( $link, 'custom_the_permalink' ) );
-			
-			ob_start();
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-sliders-list.php';
 
-			include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-public-category-slider.php';
+		return ob_get_clean();
 
-			$html .= $this->filters->slider( $slider, ob_get_clean() );
+	}
 
-		}
+	/**
+	 * Outputs list of categories.
+	 *
+	 * @since    0.1.0
+	 * @var      array    $data              Data from the specified slider.
+	 * @return   string                      The gathered html to output.
+	 */
+	public function sliders_list_item( $data ) {
 
-		return $html;
+		ob_start();
+
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-sliders-list-item.php';
+
+		return self::$filters->slider( $data, ob_get_clean() );
+
+	}
+
+	/**
+	 * Outputs a slider.
+	 *
+	 * @since    0.1.0
+	 * @var      array    $data              Data from the specified slider.
+	 * @return   string                      The gathered html to output.
+	 */
+	public function categories_list( $data ) {
+
+		$post = WP_Generous_Public_Posts::obtain( 'categories', $data );
+
+		ob_start();
+
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-categories-list.php';
+
+		return self::$filters->category( $data, ob_get_clean() );
+
+	}
+
+	/**
+	 * Outputs a slider.
+	 *
+	 * @since    0.1.0
+	 * @var      array    $data              Data from the specified slider.
+	 * @return   string                      The gathered html to output.
+	 */
+	public function categories_list_item( $data ) {
+
+		ob_start();
+
+		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-categories-list-item.php';
+
+		return self::$filters->category( $data, ob_get_clean() );
 
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a public-facing view for the plugin
+ * General slider template.
  *
  * @since      0.1.0
  *
@@ -10,12 +10,5 @@
  */
 ?>
 
-Test
-asf
-
-af
-fs
-fas
-fsa
-f
-a
+[generous categories]
+[generous category=music]

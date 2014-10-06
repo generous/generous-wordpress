@@ -7,7 +7,7 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Display Generous sliders on your website. Official Generous plugin.
+Display a Generous store on your website. Official Generous plugin.
 
 == Description ==
 

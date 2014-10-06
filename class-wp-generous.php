@@ -49,8 +49,7 @@ class WP_Generous {
 	protected $loader;
 
 	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
+	 * Requests data from the Generous API.
 	 *
 	 * @since    0.1.0
 	 * @access   protected
@@ -99,11 +98,12 @@ class WP_Generous {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-loader.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-api.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-i18n.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-link.php';
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-wp-generous-admin.php';
 		require_once plugin_dir_path( __FILE__ ) . 'public/class-wp-generous-public.php';
 
 		$this->loader = new WP_Generous_Loader();
-		$this->api = WP_Generous_Api::obtain();
+		$this->api = WP_Generous_Api::obtain( $this->get_options() );
 
 	}
 
@@ -152,7 +152,7 @@ class WP_Generous {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new WP_Generous_Public( $this->get_Generous(), $this->get_version(), $this->get_options() );
+		$plugin_public = new WP_Generous_Public( $this->get_Generous(), $this->get_version(), $this->get_options(), $this->loader, $this->api );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -160,7 +160,9 @@ class WP_Generous {
 		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_rules' );
 		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_tags' );
 		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_endpoints' );
+		$this->loader->add_action( 'init', $plugin_public, 'check_for_error' );
 		$this->loader->add_action( 'template_include', $plugin_public, 'add_custom_templates' );
+		$this->loader->add_filter( 'the_posts', $plugin_public, 'add_custom_page');
 
 	}
 
@@ -205,10 +207,10 @@ class WP_Generous {
 	}
 
 	/**
-	 * Retrieve the version number of the plugin.
+	 * Retrieve the options of the plugin.
 	 *
 	 * @since     0.1.0
-	 * @return    string    The version number of the plugin.
+	 * @return    string    The options of the plugin.
 	 */
 	public function get_options() {
 		return get_option( $this->options_id );

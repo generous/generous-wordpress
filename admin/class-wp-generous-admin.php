@@ -5,6 +5,8 @@
  *
  * Defines the plugin name, version, and hooks for styles/js and the menu.
  *
+ * @since      0.1.0
+ *
  * @package    WP_Generous
  * @subpackage WP_Generous/admin
  * @author     Matthew Govaere <matthew@genero.us>

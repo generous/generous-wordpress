@@ -7,6 +7,7 @@
  * so that its ready for translation.
  *
  * @since      0.1.0
+ *
  * @package    WP_Generous
  * @subpackage WP_Generous/includes
  * @author     Matthew Govaere <matthew@genero.us>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * General category slider template.
+ * General category slider item template.
  *
  * @since      0.1.0
  *
@@ -10,7 +10,7 @@
  */
 ?>
 
-<a class="generous-slider" href="<?php the_permalink(); ?>">
+<a class="generous-sliders-item" href="<?php wp_generous_the_permalink(); ?>">
 	<div class="cover-photo">
 		<img src="[cover_photo]" />
 	</div>
