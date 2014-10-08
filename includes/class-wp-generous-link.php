@@ -6,7 +6,7 @@
  * @since      0.1.0
  *
  * @package    WP_Generous
- * @subpackage WP_Generous/public
+ * @subpackage WP_Generous/includes
  * @author     Matthew Govaere <matthew@genero.us>
  */
 class WP_Generous_Link {
@@ -19,8 +19,10 @@ class WP_Generous_Link {
      * @var      array    $query_vars      A list of query variables with relatable IDs.
      */
     private $query_vars = array(
+        'generous_category' => 'generous_category',
         'category' => 'generous_category',
         'categories' => 'generous_category',
+        'generous_slider' => 'generous_slider',
         'slider' => 'generous_slider',
         'sliders' => 'generous_slider',
     );

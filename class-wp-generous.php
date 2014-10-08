@@ -159,11 +159,12 @@ class WP_Generous {
 		$this->loader->add_action( 'init', $plugin_public, 'add_shortcodes' );
 		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_rules' );
 		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_tags' );
+		$this->loader->add_action( 'init', $plugin_public, 'add_taxonomies' );
 		$this->loader->add_action( 'init', $plugin_public, 'add_rewrite_endpoints' );
-		$this->loader->add_action( 'init', $plugin_public, 'check_for_error' );
 		$this->loader->add_action( 'template_include', $plugin_public, 'add_custom_templates' );
 		$this->loader->add_filter( 'the_posts', $plugin_public, 'add_custom_page');
-
+		$this->loader->add_filter( 'wp_title', $plugin_public, 'remove_tax_name_from_title');
+		
 	}
 
 	/**

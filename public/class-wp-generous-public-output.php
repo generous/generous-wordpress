@@ -30,20 +30,26 @@ class WP_Generous_Public_Output {
 	private static $filters;
 
 	/**
+	 * Loads templates.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Public_Templates         $templates        Loads user or default templates.
+	 */
+	private static $templates;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @var      string                               $options           The settings of the plugin.
+	 * @var      string                               $options          The settings of the plugin.
 	 */
-	public function __construct( $options = false ) {
-
+	public function __construct( $options = false, $templates = false ) {
 		if ( false !== $options ) {
-
 			self::$permalink = $options['permalink'];
+			self::$templates = $templates;
 			self::$filters = new WP_Generous_Public_Filters();
-
 		}
-
 	}
 
 	/**
@@ -52,18 +58,18 @@ class WP_Generous_Public_Output {
 	 * @since    0.1.0
 	 * @return   string                      The gathered html to output.
 	 */
-	public function store() {
+	public function shortcode_store() {
 
 		ob_start();
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-store.php';
+		include self::$templates->load('shortcode-store');
 
 		return ob_get_clean();
 
 	}
 
 	/**
-	 * Outputs list of categories.
+	 * Outputs a single slider.
 	 *
 	 * @since    0.1.0
 	 * @var      array    $data              Data from the specified slider.
@@ -73,7 +79,7 @@ class WP_Generous_Public_Output {
 
 		ob_start();
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-slider.php';
+		include self::$templates->load('slider');
 
 		return self::$filters->slider( $data, ob_get_clean() );
 
@@ -86,66 +92,66 @@ class WP_Generous_Public_Output {
 	 * @var      array    $data              Data from the specified category.
 	 * @return   string                      The gathered html to output.
 	 */
-	public function sliders_list( $data ) {
+	public function shortcode_category( $data ) {
 
 		$post = WP_Generous_Public_Posts::obtain( 'sliders', $data['sliders'] );
 
 		ob_start();
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-sliders-list.php';
+		include self::$templates->load('shortcode-category');
 
 		return ob_get_clean();
 
 	}
 
 	/**
-	 * Outputs list of categories.
+	 * Outputs a slider item.
 	 *
 	 * @since    0.1.0
 	 * @var      array    $data              Data from the specified slider.
 	 * @return   string                      The gathered html to output.
 	 */
-	public function sliders_list_item( $data ) {
+	public function slider_item( $data ) {
 
 		ob_start();
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-sliders-list-item.php';
+		include self::$templates->load('slider-item');
 
 		return self::$filters->slider( $data, ob_get_clean() );
 
 	}
 
 	/**
-	 * Outputs a slider.
+	 * Outputs the list of categories.
 	 *
 	 * @since    0.1.0
 	 * @var      array    $data              Data from the specified slider.
 	 * @return   string                      The gathered html to output.
 	 */
-	public function categories_list( $data ) {
+	public function shortcode_categories( $data ) {
 
 		$post = WP_Generous_Public_Posts::obtain( 'categories', $data );
 
 		ob_start();
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-categories-list.php';
+		include self::$templates->load('shortcode-categories');
 
 		return self::$filters->category( $data, ob_get_clean() );
 
 	}
 
 	/**
-	 * Outputs a slider.
+	 * Outputs a category item.
 	 *
 	 * @since    0.1.0
 	 * @var      array    $data              Data from the specified slider.
 	 * @return   string                      The gathered html to output.
 	 */
-	public function categories_list_item( $data ) {
+	public function categories_item( $data ) {
 
 		ob_start();
 
-		include plugin_dir_path( __FILE__ ) . 'partials/wp-generous-categories-list-item.php';
+		include self::$templates->load('categories-item');
 
 		return self::$filters->category( $data, ob_get_clean() );
 

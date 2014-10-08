@@ -38,10 +38,10 @@ class WP_Generous_Public_Shortcodes {
 	 * @var      array    $options    The settings of the plugin.
 	 * @var      array    $api        Maintains all Generous API requests.
 	 */
-	public function __construct( $options, $api ) {
+	public function __construct( $options, $api, $output ) {
 
 		$this->api = $api;
-		$this->output = new WP_Generous_Public_Output( $options );
+		$this->output = $output;
 
 	}
 
@@ -57,9 +57,9 @@ class WP_Generous_Public_Shortcodes {
 		$shortcodes = array(
 			'store'      => array($this, 'store'),
 			'categories' => array($this, 'categories'),
-			'page'       => array($this, 'page'),
 			'category'   => array($this, 'category'),
 			'slider'     => array($this, 'slider'),
+			'page'       => array($this, 'page'),
 		);
 
 		$is_assoc = (bool)count(array_filter(array_keys($atts), 'is_string'));
@@ -106,7 +106,7 @@ class WP_Generous_Public_Shortcodes {
 	 */
 	private function store($atts) {
 
-		return $this->output->store();
+		return $this->output->shortcode_store();
 
 	}
 
@@ -122,7 +122,7 @@ class WP_Generous_Public_Shortcodes {
 		$data = $this->api->get_categories();
 
 		if( false !== $data ) {
-			return $this->output->categories_list( $data );
+			return $this->output->shortcode_categories( $data );
 		} else {
 			$this->output->error();
 		}
@@ -143,7 +143,7 @@ class WP_Generous_Public_Shortcodes {
 
 		if( false !== $data ) {
 			if( isset( $data['sliders'] ) ) {
-				return $this->output->sliders_list( $data );
+				return $this->output->shortcode_category( $data );
 			} else if( isset( $data['slider'] ) ) {
 				return $this->output->slider( $data['slider'] );
 			}
@@ -164,7 +164,7 @@ class WP_Generous_Public_Shortcodes {
 		$data = $this->api->get_category( $id );
 
 		if( false !== $data ) {
-			return $this->output->sliders_list( $data );  
+			return $this->output->shortcode_category( $data );  
 		}
 
 	}

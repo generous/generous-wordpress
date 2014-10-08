@@ -28,13 +28,11 @@ class WP_Generous_Public_Data {
 	 * @var      array          $val      The data to save.
 	 */
 	public function add( $key, $val ) {
-
 		if ( isset( $val ) && ! isset( $val['error'] ) ) {
 			$this->data[ $key ] = $val;
 		} else {
 			$this->data[ $key ] = false;
 		}
-
 	}
 
 	/**

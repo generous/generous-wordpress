@@ -21,11 +21,19 @@ class WP_Generous_Public_Filters {
 	 */
 	public function slider( $data, $content ) {
 
-		$filters = array(
-			'title'             => $data['title'],
-			'cover_photo'       => $data['cover_photo']['small'],
-			'suggested_price'   => $data['suggested_price'],
-		);
+		$filters = array();
+
+		if ( isset( $data['title'] ) ) {
+			$filters['title'] = $data['title'];
+		}
+
+		if ( isset( $data['cover_photo'], $data['cover_photo']['small'] ) ) {
+			$filters['cover_photo'] = $data['cover_photo']['small'];
+		}
+
+		if ( isset( $data['suggested_price'] ) ) {
+			$filters['suggested_price'] = $data['suggested_price'];
+		}
 
 		foreach ( $filters as $filter => $replacement ) {
 			$content = $this->convert( $filter, $replacement, $content );
@@ -45,9 +53,11 @@ class WP_Generous_Public_Filters {
 	 */
 	public function category( $data, $content ) {
 
-		$filters = array(
-			'title' => $data['title']
-		);
+		$filters = array();
+
+		if ( isset( $data['title'] ) ) {
+			$filters['title'] = $data['title'];
+		}
 
 		foreach ( $filters as $filter => $replacement ) {
 			$content = $this->convert( $filter, $replacement, $content );

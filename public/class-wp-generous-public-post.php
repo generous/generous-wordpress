@@ -149,11 +149,11 @@ class WP_Generous_Public_Post {
 		switch($this->type) {
 
 			case 'sliders':
-				return $output->sliders_list_item( $data );
+				return $output->slider_item( $data );
 			break;
 
 			case 'categories':
-				return $output->categories_list_item( $data );
+				return $output->categories_item( $data );
 			break;
 
 		}

@@ -95,7 +95,7 @@ class WP_Generous_Admin_Settings {
 
 		$options = get_option($this->option_group);
 
-		echo "<input name=\"{$this->option_group}[username]\" size=\"40\" type=\"text\" value=\"{$options['username']}\" />";
+		echo "<input name=\"{$this->option_group}[username]\" size=\"20\" type=\"text\" value=\"{$options['username']}\" />";
 
 	}
 
@@ -109,7 +109,7 @@ class WP_Generous_Admin_Settings {
 
 		$options = get_option($this->option_group);
 
-		echo "<input name=\"{$this->option_group}[permalink]\" size=\"40\" type=\"text\" value=\"{$options['permalink']}\" />";
+		echo "<input name=\"{$this->option_group}[permalink]\" size=\"20\" type=\"text\" value=\"{$options['permalink']}\" />";
 
 	}
 

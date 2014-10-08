@@ -64,6 +64,7 @@ class WP_Generous_Public_Posts {
 	 * Adds data that needs to be looped.
 	 *
 	 * @since    0.1.0
+	 * @access   private
 	 * @var      string    $type     The key to add. ('categories' || 'sliders')
 	 * @var      array     $data     Array of items to be looped.
 	 */
@@ -81,6 +82,8 @@ class WP_Generous_Public_Posts {
 	public function have( $type ) {
 
 		if( $this->data[ $type ]->index < $this->data[ $type ]->total - 1 ) {
+
+			add_filter('the_permalink', array( $this, 'custom_the_permalink') );
 
 			$this->data[ $type ]->index++;
 			$this->current = $type;
@@ -131,6 +134,17 @@ class WP_Generous_Public_Posts {
 	 */
 	public function set_options( $options ) {
 		$this->options = $options;
+	}
+
+	/**
+	 * Register the url for the_permalink.
+	 *
+	 * @since    0.1.0
+	 * @var      array          $url          The current url.
+	 * @return   string                       The url of the item being looped.
+	 */
+	public function custom_the_permalink( $url ) {
+		return $this->get_permalink();
 	}
 
 }

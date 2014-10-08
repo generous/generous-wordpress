@@ -18,7 +18,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string                           $name         The ID of this plugin.
+	 * @var      string                           $name          The ID of this plugin.
 	 */
 	private $name;
 
@@ -51,24 +51,6 @@ class WP_Generous_Public {
 	private $loader;
 
 	/**
-	 * The shortcodes are responsible for maintaining callbacks for the shortcodes.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      WP_Generous_Public_Shortcodes    $shortcodes    Maintains callbacks for the shortcodes.
-	 */
-	private $shortcodes;
-
-	/**
-	 * Retrieves data, generally from the Api.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      WP_Generous_Public_Data          $data          Saves and retrieves data.
-	 */
-	private $data;
-
-	/**
 	 * Requests data from the Generous API.
 	 *
 	 * @since    0.1.0
@@ -78,12 +60,59 @@ class WP_Generous_Public {
 	private $api;
 
 	/**
+	 * Prepares and outputs data to html.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Public_Output        $output        Maintains methods to convert data to html templates.
+	 */
+	private $output;
+
+	/**
+	 * Responsible for maintaining callbacks and parameters for the shortcodes.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Public_Shortcodes    $shortcodes    Maintains callbacks for the shortcodes.
+	 */
+	private $shortcodes;
+
+	/**
+	 * Saves and retrieves data, generally from the Api.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Public_Data          $data          Saves and retrieves data.
+	 */
+	private $data;
+
+	/**
+	 * Runs phantom queries which generate content and post-like Wordpress data.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Public_Query         $query         Maintains methods to create phantom Wordpress queries.
+	 */
+	private $query;
+
+	/**
+	 * Loads templates.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Generous_Public_Templates      $templates     Loads user or default templates.
+	 */
+	private $templates;
+
+	/**
 	 * Initialize the class, set its properties, and load depenencies.
 	 *
 	 * @since    0.1.0
-	 * @var      string    $name       The name of the plugin.
-	 * @var      string    $version    The version of this plugin.
-	 * @var      array     $options    The settings of the plugin.
+	 * @var      string                           $name          The name of the plugin.
+	 * @var      string                           $version       The version of this plugin.
+	 * @var      array                            $options       The settings of the plugin.
+	 * @var      WP_Generous_Loader               $loader        Register all actions and filters for the plugin.
+	 * @var      WP_Generous_Api                  $api           Maintains requests to the Generous Api.
 	 */
 	public function __construct( $name, $version, $options, $loader, $api ) {
 
@@ -105,15 +134,20 @@ class WP_Generous_Public {
 	 * - WP_Generous_Public_Shortcodes
 	 * - WP_Generous_Public_Post
 	 * - WP_Generous_Public_Posts
+	 * - WP_Generous_Public_Templates
 	 * - WP_Generous_Public_Output
 	 * - WP_Generous_Public_Filters
 	 * - WP_Generous_Public_Data
+	 * - WP_Generous_Public_Query
 	 * - Public functions
 	 *
+	 * Create an instance of output which will be used to generate (html) content.
 	 * Create an instance of shortcodes which will be used for callbacks.
 	 * Create an instance of data which will be used to retrieve saved Api data.
+	 * Create an instance of query which will be used to create phantom Wordpress posts.
 	 *
-	 * Set options of posts.
+	 * Create an instance of posts which will be used to manage and run public functions.
+	 * Set plugin options for posts.
 	 *
 	 * @since    0.1.0
 	 * @access   private
@@ -123,16 +157,22 @@ class WP_Generous_Public {
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-shortcodes.php';
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-post.php';
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-posts.php';
+		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-templates.php';
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-output.php';
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-filters.php';
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-data.php';
+		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-public-query.php';
 		require_once plugin_dir_path( __FILE__ ) . 'wp-generous-public-functions.php';
 
-		$this->shortcodes = new WP_Generous_Public_Shortcodes( $this->options, $this->api );
+		$this->templates = new WP_Generous_Public_Templates();
+		$this->output = new WP_Generous_Public_Output( $this->options, $this->templates );
+		$this->shortcodes = new WP_Generous_Public_Shortcodes( $this->options, $this->api, $this->output );
 		$this->data = new WP_Generous_Public_Data();
+		$this->query = new WP_Generous_Public_Query( $this->output, $this->options );
 
 		$posts = WP_Generous_Public_Posts::obtain();
 		$posts->set_options( $this->options );
+
 	}
 
 	/**
@@ -168,13 +208,11 @@ class WP_Generous_Public {
 	 * @since    0.1.0
 	 */
 	public function add_rewrite_rules() {
-
 		add_rewrite_rule(
 			'^'.$this->options['permalink'].'/([^/]*)/?',
 			'index.php?generous_page=$matches[1]&generous_category=$matches[1]&generous_slider=$matches[1]',
 			'top'
 		);
-
 	}
 
 	/**
@@ -183,17 +221,19 @@ class WP_Generous_Public {
 	 * @since    0.1.0
 	 */
 	public function add_rewrite_tags() {
+		$this->set_rewrite_tag( 'generous_page' );
+		$this->set_rewrite_tag( 'generous_category' );
+		$this->set_rewrite_tag( 'generous_slider' );
+	}
 
-		$regex_slug = '^[a-z0-9]+(?:-[a-z0-9]+)*$';
-
-		add_rewrite_tag( '%generous_page%', $regex_slug );
-		add_rewrite_tag( '%generous_category%', $regex_slug );
-		add_rewrite_tag( '%generous_slider%', $regex_slug );
-
-		add_permastruct( 'generous_page', "/{$this->options['permalink']}/%generous_page%" );
-		add_permastruct( 'generous_category', "/{$this->options['permalink']}/%generous_category%" );
-		add_permastruct( 'generous_slider', "/{$this->options['permalink']}/%generous_slider%" );
-
+	/**
+	 * Register the taxonomies for the public-facing side of the site.
+	 *
+	 * @since    0.1.0
+	 */
+	public function add_taxonomies() {
+		$this->register_taxonomy( 'generous_category', 'page' );
+		$this->register_taxonomy( 'generous_slider', 'page' );
 	}
 
 	/**
@@ -202,7 +242,7 @@ class WP_Generous_Public {
 	 * @since    0.1.0
 	 */
 	public function add_rewrite_endpoints() {
-		add_rewrite_endpoint( $this->options['permalink'], EP_PERMALINKS, EP_PAGES );
+		add_rewrite_endpoint( $this->options['permalink'], EP_PERMALINK | EP_PAGES );
 	}
 
 	/**
@@ -210,77 +250,54 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @var      array     $template   The original template.
-	 * @return   string                The replaced, updated, or original template.
+	 * @return   string                The replaced (or original) template.
 	 */
 	public function add_custom_templates( $template ) {
 
-		if ( ( $id = get_query_var( 'generous_page' ) ) || ( $id = get_query_var( 'generous_category' ) ) ) {
+		if ( $id = get_query_var( 'generous_page' ) ) {
 
-			// If id exists, change template, otherwise allow 404.
 			if( false !== $this->data->get( $id ) ) {
 
-				add_filter( 'the_content', array( $this, 'custom_the_content' ) );
-				$template = locate_template( 'page.php' );
+				$data = $this->data->get( $id );
+
+				if ( isset( $data['sliders'] ) ) {
+					$template = $this->templates->load('page-category');
+				} else {
+					$template = $this->templates->load('page-slider');
+				}
 
 			}
 
-			return $template;
+		} else if ( $id = get_query_var( 'generous_category' ) ) {
+
+			if( false !== $this->data->get( $id ) ) {
+				$template = $this->templates->load('page-category');
+			}
+
+		} else if ( $id = get_query_var( 'generous_slider' ) ) {
+
+			if( false !== $this->data->get( $id ) ) {
+				$template = $this->templates->load('page-slider');
+			}
 
 		} else if ( $this->is_default() ) {
 
-			$template = locate_template( 'page.php' );
-
-			return $template;
-
-		} else {
-
-			return $template;
+			$template = $this->templates->load('page-default');
 
 		}
+
+		return $template;
 		
 	}
 
 	/**
-	 * Register the custom title for the public-facing side of the site.
-	 *
-	 * @since    0.1.0
-	 * @var      array     $title      The original title.
-	 * @return   string                The replaced, updated, or original title.
-	 */
-	public function custom_the_title( $title ) {   
-		return isset( $this->options['title'] ) ? $this->options['title'] : 'Store';
-	}
-
-	/**
-	 * Register the custom content for the public-facing side of the site.
-	 *
-	 * @since    0.1.0
-	 * @var      array     $content    The original content.
-	 * @return   string                The replaced, updated, or original content.
-	 */
-	public function custom_the_content( $content ) {
-
-		if ( $id = get_query_var( 'generous_page' ) ) {
-			return "[generous page={$id}]";
-		} else if ( $id = get_query_var( 'generous_category' ) ) {
-			return "[generous category={$id}]";
-		}
-
-	}
- 	
- 	/**
 	 * Register custom pages for the public-facing side of the site.
 	 *
 	 * @since    0.1.0
-	 * @var      array     $posts      The original posts.
-	 * @return   array                 The updated or original posts.
+	 * @var      array     $posts      The original Wordpress posts.
+	 * @return   array                 The updated (or original) Wordpress posts.
 	 */
 	public function add_custom_page( $posts ) {
-
-		global $wp_query;
-
-		$slug = $this->options['permalink'];
-		$title = isset( $this->options['title'] ) ? $this->options['title'] : 'Store';
 
 		// Check unknown category/slider id query
 		if ( $id = get_query_var( 'generous_page' ) ) {
@@ -288,28 +305,7 @@ class WP_Generous_Public {
 			$data = $this->api->get_unknown( $id );
 			$this->data->add( $id, $data );
 
-			if ( false === $this->data->get( $id ) ) {
-
-				return $this->set_404();
-
-			} else {
-
-				$post = $this->set_post( $slug, $data );
-
-				$posts = NULL;
-				$posts[] = $post;
-
-				$wp_query->is_page = true;
-				$wp_query->is_singular = true;
-				$wp_query->is_home = false;
-				$wp_query->is_archive = false;
-				$wp_query->is_category = false;
-
-				unset($wp_query->query["error"]);
-				$wp_query->query_vars["error"] = '';
-				$wp_query->is_404 = false;
-
-			}
+			$posts = $this->query->run( 'generous_page', $id, $this->data->get( $id ) );
 
 		// Check category query
 		} else if ( $id = get_query_var( 'generous_category' ) ) {
@@ -317,53 +313,24 @@ class WP_Generous_Public {
 			$data = $this->api->get_category( $id );
 			$this->data->add( $id, $data );
 
-			if ( false === $this->data->get( $id ) ) {
-				return $this->set_404();
-			}
+			$posts = $this->query->run( 'generous_category', $id, $this->data->get( $id ) );
 
 		// Check slider query
 		} else if ( $id = get_query_var( 'generous_slider' ) ) {
 
-			$data = $this->api->get_slider( $id );
+			$data = $this->api->get_unknown( $id );
 			$this->data->add( $id, $data );
 
-			if ( false === $this->data->get( $id ) ) {
-				return $this->set_404();
-			}
+			$posts = $this->query->run( 'generous_slider', $id, $this->data->get( $id ) );
 
 		// Check default page
-		} else if ( $this->is_default() ){
+		} else if ( $this->is_default() ) {
 
-			$post = new stdClass;
-			$post->ID = -1;
-			$post->post_author = 1;
-			$post->post_name = $slug;
-			$post->guid = get_bloginfo('wpurl' . '/' . $slug);
-			$post->post_title = $title;
-			$post->post_content = "[generous store]";
-			$post->post_status = 'static';
-			$post->comment_status = 'closed';
-			$post->ping_status = 'closed';
-			$post->comment_count = 0;
-			$post->post_date = current_time('mysql');
-			$post->post_date_gmt = current_time('mysql',1);
-
-			$posts = NULL;
-			$posts[] = $post;
-
-			$wp_query->is_page = true;
-			$wp_query->is_singular = true;
-			$wp_query->is_home = false;
-			$wp_query->is_archive = false;
-			$wp_query->is_category = false;
-
-			unset($wp_query->query["error"]);
-			$wp_query->query_vars["error"]="";
-			$wp_query->is_404 = false;
+			$posts = $this->query->run( 'default' );
 
 		} else {
 
-			// Everything else - do not modify
+			// Not a Generous query
 
 		}
 
@@ -372,85 +339,95 @@ class WP_Generous_Public {
 	}
 
 	/**
-	 * Force Wordpress to use a 404 page.
+	 * Register the filter to replace the spacing on titles for taxonomy requested pages.
 	 *
 	 * @since    0.1.0
-	 * @var      array     $message    The message to output, if allowed.
-	 * @return   array                 Empty posts.
+	 * @var      string     $title     The original title.
+	 * @var      string     $sep       The separator string.
+	 * @var      string     $sep_loc   The location of the separator.
+	 * @return   string                The replaced (or original) title.
 	 */
-	public function set_404( $message = 'Page not found' ) {
+	public function remove_tax_name_from_title( $title, $sep = '', $sep_loc = 'left' ) {
 
-		global $wp_query;
+		if ( is_tax() ) {
 
-		$wp_query->set_404();
-		$wp_query->query_vars['error'] = $message;
-		$wp_query->is_404 = true;
+			$term_title = single_term_title( '', false );
 
-		return array();
-
-	}
-
-	/**
-	 * Creates a temporary post-like object.
-	 *
-	 * @since    0.1.0
-	 * @var      string    $root_slug  The root of the plugins permalink.
-	 * @var      array     $data       The data to pull info from.
-	 * @return   object                The pretend post object.
-	 */
-	public function set_post( $root_slug, $data ) {
-
-		$post = new stdClass;
-
-		if( isset( $data ) ) {
-
-			if( isset( $data['title'] ) ) {
-				$post_title = $data['title'];
-			} else if ( isset( $data['slider'] ) ) {
-				$post_title = $data['slider']['title'];
+			if ( 'right' == $sep_loc ) {
+				$title = $term_title . "$sep";
+			} else {
+				$title = "$sep" . $term_title;
 			}
-
-			if( isset( $data['slug'] ) ) {
-				$post_slug = $data['slug'];
-			} else if ( isset( $data['slider'] ) ) {
-				$post_slug = $data['slider']['slug'];
-			}
-
-			$post = new stdClass;
-			$post->ID = -1;
-			$post->post_author = 1;
-			$post->post_name = $root_slug . '/' .  $post_slug;
-			$post->guid = get_bloginfo( 'url' ) . '/' . $root_slug . '/' . $post_slug . '/';
-			$post->post_title = $post_title;
-			$post->post_status = 'static';
-			$post->comment_status = 'closed';
-			$post->ping_status = 'closed';
-			$post->comment_count = 0;
-			$post->post_date = current_time('mysql');
-			$post->post_date_gmt = current_time('mysql',1);
 
 		}
 
-		return $post;
+		return $title;
 
 	}
 
 	/**
-	 * Checks if the current page is the default store page.
+	 * Actually registers custom rewrite tag and permalink structures with Wordpress.
 	 *
 	 * @since    0.1.0
-	 * @return   bool                  True if yes, false if no.
+	 * @access   private
+	 * @var      string     $tag      The tag to add.
 	 */
-	public function is_default() {
+	private function set_rewrite_tag( $tag ) {
 
-		global $wp;
+		$regex_slug = '^[a-z0-9]+(?:-[a-z0-9]+)*$';
+
+		add_rewrite_tag( "%{$tag}%", $regex_slug );
+		add_permastruct( $tag, "/{$this->options['permalink']}/%{$tag}%" );
+
+	}
+
+	/**
+	 * Actually registers taxonomy based on specified data  with Wordpress.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      string     $slug     The taxonomy to add.
+	 * @var      string     $type     The type of Wordpress post.
+	 */
+	private function register_taxonomy( $slug, $type ) {
+
+		$labels = array(
+			'name'              => '',
+			'singular_name'     => ''
+		);
+
+		$args = array(
+			'hierarchical'      => false,
+			'show_ui'           => false,
+			'show_admin_column' => false,
+			'query_var'         => true,
+			'rewrite'           => array( 'slug' => $this->options['permalink'] ),
+		);
+
+		register_taxonomy( $slug, $type, $args );
+
+	}
+
+	/**
+	 * Checks if the current page is the default page.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @return   bool                 True if yes, false if no.
+	 */
+	private function is_default() {
+
+		global $wp, $wp_query;
 
 		$slug = $this->options['permalink'];
 
+		$has_no_posts = count( $wp_query->posts == 0 );
 		$is_request_slug = strtolower( $wp->request ) == $slug;
-		$is_query_slug = ( $wp->query_vars['page_id'] == $slug || $wp->query_vars['p'] == $slug );
 
-		$has_no_posts = count( $posts == 0 );
+		$is_query_slug_page_id = ( isset( $wp->query_vars['page_id'] ) && $wp->query_vars['page_id'] == $slug );
+		$is_query_slug_p = ( isset( $wp->query_vars['p'] ) && $wp->query_vars['p'] == $slug );
+		$is_query_slug = ( $is_query_slug_page_id || $is_query_slug_p );
+
 		$is_slug = ( $is_request_slug || $is_query_slug );
 
 		return ( $has_no_posts && $is_slug ) ? true : false;
