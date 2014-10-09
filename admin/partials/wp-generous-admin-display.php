@@ -22,7 +22,7 @@
 
 	<?php if ( isset( $page['options'], $page['options']['title'] ) && ( $page['options']['title'] !== '' ) ): ?>
 	<h2>
-		<b>Active Store:</b> <?php echo $page['options']['title']; ?>
+		<b>Active Account:</b> <?php echo $page['options']['title']; ?>
 	</h2>
 	<hr>
 	<?php endif; ?>

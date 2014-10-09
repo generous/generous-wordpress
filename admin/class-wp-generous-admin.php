@@ -32,6 +32,15 @@ class WP_Generous_Admin {
 	private $version;
 
 	/**
+	 * Contains the general settings for the plugin specified by the user.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      array                         $options     The settings of the plugin.
+	 */
+	private $options;
+
+	/**
 	 * Requests data from the Generous API.
 	 *
 	 * @since    0.1.0
@@ -56,11 +65,12 @@ class WP_Generous_Admin {
 	 * @var      string    $name       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $name, $version, $api ) {
+	public function __construct( $name, $version, $options, $api ) {
 
 		$this->name = $name;
 		$this->version = $version;
 		$this->api = $api;
+		$this->options = $options;
 
 		$this->load_dependencies();
 
@@ -82,7 +92,7 @@ class WP_Generous_Admin {
 
 		require_once plugin_dir_path( __FILE__ ) . 'class-wp-generous-admin-settings.php';
 
-		$this->settings = new WP_Generous_Admin_Settings( $this->name, $this->version, $this->api );
+		$this->settings = new WP_Generous_Admin_Settings( $this->name, $this->version, $this->options, $this->api );
 
 	}
 
@@ -138,6 +148,7 @@ class WP_Generous_Admin {
 			array( $this->settings, 'sanitize' )
 		);
 
+		// Sections
 		add_settings_section(
 			'section_default',
 			'Default Settings',
@@ -145,6 +156,14 @@ class WP_Generous_Admin {
 			$this->settings->option_group
 		);
 
+		add_settings_section(
+			'section_sliders',
+			'Slider Settings',
+			'',
+			$this->settings->option_group
+		);
+
+		// Default Settings
 		add_settings_field(
 			'username',
 			'Username',
@@ -159,6 +178,22 @@ class WP_Generous_Admin {
 			array( $this->settings, 'output_input_permalink' ),
 			$this->settings->option_group,
 			'section_default'
+		);
+
+		// Slider Settings
+		add_settings_section(
+			'section_sliders',
+			'Slider Settings',
+			'',
+			$this->settings->option_group
+		);
+
+		add_settings_field(
+			'enable_overlay',
+			'Enable Overlay',
+			array( $this->settings, 'output_input_enable_overlay' ),
+			$this->settings->option_group,
+			'section_sliders'
 		);
 
 	}

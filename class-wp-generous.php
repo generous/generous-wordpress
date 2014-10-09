@@ -83,6 +83,7 @@ class WP_Generous {
 	 * - WP_Generous_Loader. Orchestrates the hooks of the plugin.
 	 * - WP_Generous_i18n. Defines internationalization functionality.
 	 * - WP_Generous_Api. Sets endpoints for Generous API requests.
+	 * - WP_Generous_Formatter. Formatting methods.
 	 * - WP_Generous_Admin. Defines all hooks for the dashboard.
 	 * - WP_Generous_Public. Defines all hooks for the public side of the site.
 	 *
@@ -96,8 +97,10 @@ class WP_Generous {
 	private function load_dependencies() {
 
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-loader.php';
-		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-api.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-i18n.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-api.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-formatter.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-currency.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-generous-link.php';
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-wp-generous-admin.php';
 		require_once plugin_dir_path( __FILE__ ) . 'public/class-wp-generous-public.php';
@@ -134,7 +137,7 @@ class WP_Generous {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new WP_Generous_Admin( $this->get_Generous(), $this->get_version(), $this->api );
+		$plugin_admin = new WP_Generous_Admin( $this->get_Generous(), $this->get_version(), $this->get_options(), $this->api );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -164,7 +167,7 @@ class WP_Generous {
 		$this->loader->add_action( 'template_include', $plugin_public, 'add_custom_templates' );
 		$this->loader->add_filter( 'the_posts', $plugin_public, 'add_custom_page');
 		$this->loader->add_filter( 'wp_title', $plugin_public, 'remove_tax_name_from_title');
-		
+
 	}
 
 	/**
@@ -211,10 +214,16 @@ class WP_Generous {
 	 * Retrieve the options of the plugin.
 	 *
 	 * @since     0.1.0
-	 * @return    string    The options of the plugin.
+	 * @return    array     The options of the plugin.
 	 */
 	public function get_options() {
-		return get_option( $this->options_id );
+
+		$defaults = array(
+			'permalink' => 'store',
+			'enable_overlay' => true
+		);
+
+		return wp_parse_args( get_option( $this->options_id ), $defaults );
 	}
 
 }

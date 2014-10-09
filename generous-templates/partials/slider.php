@@ -17,16 +17,22 @@
 
 <div class="generous-slider">
 
+    <h1>[title]</h1>
+
     <div class="cover-photo">
         <img src="[cover_photo]" />
     </div>
-    
-    <div class="title">
-        [title]
-    </div>
 
-    <div class="suggested-price">
-        [suggested_price]
+    <div class="details">
+
+        <div class="suggested-price">
+            [currency_symbol][suggested_price_whole]
+        </div>
+
+        <div class="generous-buy">
+            <a href="[button_slider_overlay]">Buy</a>
+        </div>
+
     </div>
 
 </div>

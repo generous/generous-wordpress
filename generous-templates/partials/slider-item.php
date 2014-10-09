@@ -24,13 +24,18 @@
             <img src="[cover_photo]" />
         </div>
 
-        <div class="title">
-            [title]
+        <div class="details">
+
+            <div class="title">
+                [title]
+            </div>
+
+            <div class="suggested-price">
+                [currency_symbol][suggested_price_whole]+
+            </div>
+
         </div>
 
-        <div class="suggested-price">
-            [suggested_price]
-        </div>
     </a>
 
 </div>

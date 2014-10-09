@@ -3,10 +3,10 @@
 /**
  * Template Name: Generous Page - Slider
  *
- * Outputs sliders of a specified category.
+ * Outputs specified slider..
  *
  * Dependencies:
- * - partials/slider-item.php
+ * - partials/slider.php
  *
  * @since      0.1.0
  *

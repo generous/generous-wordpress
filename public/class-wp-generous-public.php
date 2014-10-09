@@ -181,7 +181,7 @@ class WP_Generous_Public {
 	 * @since    0.1.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/css/generous-wp.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/css/wp-generous.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -190,7 +190,13 @@ class WP_Generous_Public {
 	 * @since    0.1.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/js/generous-wp.js', array( 'jquery' ), $this->version, false );
+
+		wp_register_script( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/js/wp-generous.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->name );
+
+		wp_register_script( "{$this->name}-js", 'http://js.genero.us/', array(), $this->version, false );
+		wp_enqueue_script( "{$this->name}-js" );
+
 	}
 
 	/**

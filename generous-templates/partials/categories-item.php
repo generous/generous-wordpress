@@ -15,7 +15,7 @@
  */
 ?>
 
-<li class="generous-categories-item">
+<li>
 
     <a href="<?php wp_generous_the_permalink(); ?>">
         [title]

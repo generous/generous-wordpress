@@ -8,7 +8,7 @@
  * Usage: [generous category=<id>]
  *
  * Dependencies:
- * - partials/slider-item.php
+ * - partials/sliders-slider.php
  *
  * @since      0.1.0
  *

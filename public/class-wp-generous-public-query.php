@@ -185,7 +185,11 @@ class WP_Generous_Public_Query {
 				$link->query_var = 'generous_slider';
 				$link->query_val = $slider['slug'];
 
-				$this->current_link = $link->get();
+				if( true === $this->options['enable_overlay'] ) {
+					$this->current_link = $slider['short_url'];
+				} else {
+					$this->current_link = $link->get();
+				}
 
 				add_filter('the_permalink', array( $this, 'custom_the_permalink') );
 

@@ -11,6 +11,19 @@
  */
 class WP_Generous_Public_Filters {
 
+	private $formatter;
+	private $currency;
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    0.1.0
+	 */
+	public function __construct() {
+		$this->formatter = WP_Generous_Formatter::obtain();
+		$this->currency = WP_Generous_Currency::obtain();
+	}
+
 	/**
 	 * Converts slider filters to slider data.
 	 *
@@ -27,12 +40,37 @@ class WP_Generous_Public_Filters {
 			$filters['title'] = $data['title'];
 		}
 
-		if ( isset( $data['cover_photo'], $data['cover_photo']['small'] ) ) {
-			$filters['cover_photo'] = $data['cover_photo']['small'];
+		if ( isset( $data['cover_photo'], $data['default_photo']['small'] ) ) {
+			$filters['cover_photo'] = $data['default_photo']['small'];
 		}
 
 		if ( isset( $data['suggested_price'] ) ) {
-			$filters['suggested_price'] = $data['suggested_price'];
+			$filters['suggested_price'] = $this->formatter->price( $data['suggested_price'], $data['currency'], false );
+			$filters['suggested_price_whole'] = $this->formatter->price_whole( $data['suggested_price'], $data['currency'], false );
+		}
+		
+		if ( isset( $data['currency'] ) ) {
+			$filters['currency_symbol'] = $this->currency->symbol( $data['currency'] );
+		}
+
+		if ( isset( $data['items'] ) ) {
+			$filters['item_total'] = count( $data['items'] );
+		}
+
+		if ( isset( $data['short_url'] ) ) {
+			$filters['button_slider_overlay'] = $data['short_url'];
+		}
+
+		if ( isset( $data['items'] ) ) {
+
+			$filters['item_total'] = count( $data['items'] );
+
+			if( $filters['item_total'] === 1 ) {
+				$filters['item_total_label'] = _x( 'Item', '1 Item' );
+			} else {
+				$filters['item_total_label'] = _x( 'Items', '2 Items' );
+			}
+
 		}
 
 		foreach ( $filters as $filter => $replacement ) {

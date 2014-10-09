@@ -73,10 +73,16 @@ class WP_Generous_Link {
     public function __construct( $permalinks = NULL ) {
 
         if ( NULL === $permalinks ) {
+
+            // Checks if Wordpress permalinks are enabled
             $this->permalinks = ( get_option( 'permalink_structure' ) != '' ) ? true : false;
+
         } else {
+
             $this->permalinks = $permalinks;
+            
         }
+
     }
 
     /**

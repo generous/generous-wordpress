@@ -38,7 +38,7 @@ class WP_Generous_Api {
 	public static function obtain( $plugin_options = false )
 	{
 
-		if ( !self::$instance ) { 
+		if ( ! self::$instance ) { 
 
 			self::$instance = new WP_Generous_Api( $plugin_options );
 
@@ -84,7 +84,7 @@ class WP_Generous_Api {
 		}
 
 		return $this->request( 'GET', "accounts/{$id}" );
-		
+
 	}
 
 	/**
