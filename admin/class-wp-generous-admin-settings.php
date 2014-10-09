@@ -109,7 +109,7 @@ class WP_Generous_Admin_Settings {
 			$value = $this->options['username'];
 		}
 
-		echo "<input name=\"{$this->option_group}[username]\" size=\"20\" type=\"text\" value=\"{$this->options['username']}\" />";
+		echo "<input name=\"{$this->option_group}[username]\" size=\"20\" type=\"text\" value=\"{$value}\" />";
 
 	}
 
