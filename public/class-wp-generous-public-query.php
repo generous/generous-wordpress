@@ -12,31 +12,13 @@
 class WP_Generous_Public_Query {
 
 	/**
-	 * Wordpress's $wp global variable.
+	 * Prepares and outputs data to html.
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      WP                           $wp                 Global variable $wp.
+	 * @var      WP_Generous_Public_Output    $output             Maintains methods to convert data to html templates.
 	 */
-	private $wp;
-
-	/**
-	 * Wordpress's $wp_query global variable.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      WP_Query                     $wp_query           Global variable $wp_query.
-	 */
-	private $wp_query;
-
-	/**
-	 * The default page title, set to account name.
-	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      array                        $title              The default page title.
-	 */
-	private $title;
+	private $output;
 
 	/**
 	 * Contains the general settings for the plugin specified by the user.
@@ -57,13 +39,31 @@ class WP_Generous_Public_Query {
 	private $root_slug;
 
 	/**
-	 * Prepares and outputs data to html.
+	 * The default page title, set to account name.
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      WP_Generous_Public_Output    $output             Maintains methods to convert data to html templates.
+	 * @var      array                        $title              The default page title.
 	 */
-	private $output;
+	private $title;
+
+	/**
+	 * Wordpress's $wp global variable.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP                           $wp                 Global variable $wp.
+	 */
+	private $wp;
+
+	/**
+	 * Wordpress's $wp_query global variable.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      WP_Query                     $wp_query           Global variable $wp_query.
+	 */
+	private $wp_query;
 
 	/**
 	 * The current `the_permalink` of post currently being looped.

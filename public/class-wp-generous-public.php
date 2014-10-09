@@ -305,34 +305,34 @@ class WP_Generous_Public {
 	 */
 	public function add_custom_page( $posts ) {
 
-		// Check unknown category/slider id query
+		// Check unknown query
 		if ( $id = get_query_var( 'generous_page' ) ) {
 
-			$data = $this->api->get_unknown( $id );
-			$this->data->add( $id, $data );
+			$query_var = 'generous_page';
+			$data = $this->get_data( $query_var, $id);
 
-			$posts = $this->query->run( 'generous_page', $id, $this->data->get( $id ) );
+			return $this->query->run( $query_var, $id, $data );
 
 		// Check category query
 		} else if ( $id = get_query_var( 'generous_category' ) ) {
 
-			$data = $this->api->get_category( $id );
-			$this->data->add( $id, $data );
+			$query_var = 'generous_category';
+			$data = $this->get_data( $query_var, $id);
 
-			$posts = $this->query->run( 'generous_category', $id, $this->data->get( $id ) );
+			return $this->query->run( $query_var, $id, $data );
 
 		// Check slider query
 		} else if ( $id = get_query_var( 'generous_slider' ) ) {
 
-			$data = $this->api->get_unknown( $id );
-			$this->data->add( $id, $data );
+			$query_var = 'generous_slider';
+			$data = $this->get_data( $query_var, $id);
 
-			$posts = $this->query->run( 'generous_slider', $id, $this->data->get( $id ) );
+			return $this->query->run( $query_var, $id, $data );
 
 		// Check default page
 		} else if ( $this->is_default() ) {
 
-			$posts = $this->query->run( 'default' );
+			return $this->query->run( 'default' );
 
 		} else {
 
@@ -341,6 +341,44 @@ class WP_Generous_Public {
 		}
 
 		return $posts;  
+
+	}
+
+	/**
+	 * Checks for necessary plugin options, and retrieves and saves data from Api.
+	 *
+	 * @since    0.1.0
+	 * @var      array     $query_var  The requested query variable.
+	 * @var      string    $id         The value of the query variable.
+	 * @return   array                 The retrieved data.
+	 */
+	public function get_data( $query_var, $id ) {
+
+		if ( true === $this->has_necessary_options() ) {
+
+			switch( $query_var ) {
+				case 'generous_page':
+					$data = $this->api->get_unknown( $id );
+				break;
+
+				case 'generous_category':
+					$data = $this->api->get_category( $id );
+				break;
+
+				case 'generous_slider':
+					$data = $this->api->get_unknown( $id );
+				break;
+			}
+
+			$this->data->add( $id, $data );
+
+			return $this->data->get( $id );
+
+		} else {
+
+			return false;
+
+		}
 
 	}
 
@@ -427,6 +465,7 @@ class WP_Generous_Public {
 
 		$slug = $this->options['permalink'];
 
+		$has_options = $this->has_necessary_options();
 		$has_no_posts = count( $wp_query->posts == 0 );
 		$is_request_slug = strtolower( $wp->request ) == $slug;
 
@@ -436,8 +475,19 @@ class WP_Generous_Public {
 
 		$is_slug = ( $is_request_slug || $is_query_slug );
 
-		return ( $has_no_posts && $is_slug ) ? true : false;
+		return ( $has_options && $has_no_posts && $is_slug ) ? true : false;
 
+	}
+
+	/**
+	 * Checks if the necessary options are set.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @return   bool                 True if yes, false if no.
+	 */
+	private function has_necessary_options() {
+		return ( isset( $this->options['username'], $this->options['permalink'] ) ) ? true : false;
 	}
 
 }

@@ -168,11 +168,6 @@ class WP_Generous_Admin_Settings {
 
 				}
 
-			} else {
-
-				$results['username'] = '';
-				$results['title'] = '';
-
 			}
 
 		}

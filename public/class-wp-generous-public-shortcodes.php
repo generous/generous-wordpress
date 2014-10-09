@@ -62,22 +62,30 @@ class WP_Generous_Public_Shortcodes {
 			'page'       => array($this, 'page'),
 		);
 
-		$is_assoc = (bool)count(array_filter(array_keys($atts), 'is_string'));
+		if ( isset( $atts ) && is_array( $atts) ) {
 
-		if ( ! $is_assoc ) {
-			foreach( $atts as $key => $value) {
+			$is_assoc = (bool)count(array_filter(array_keys($atts), 'is_string'));
+
+			if ( ! $is_assoc ) {
+				foreach( $atts as $key => $value) {
+					foreach($shortcodes as $code => $func) {
+						if( $value == $code ) {
+							return $this->wrapper($func, $atts);
+						}
+					}
+				}
+			} else {
 				foreach($shortcodes as $code => $func) {
-					if( $value == $code ) {
+					if( isset( $atts[$code] ) ) {
 						return $this->wrapper($func, $atts);
 					}
 				}
 			}
+
 		} else {
-			foreach($shortcodes as $code => $func) {
-				if( isset( $atts[$code] ) ) {
-					return $this->wrapper($func, $atts);
-				}
-			}
+
+			return '';
+			
 		}
 
 	}
@@ -124,7 +132,7 @@ class WP_Generous_Public_Shortcodes {
 		if( false !== $data ) {
 			return $this->output->shortcode_categories( $data );
 		} else {
-			$this->output->error();
+			return '';
 		}
 
 	}

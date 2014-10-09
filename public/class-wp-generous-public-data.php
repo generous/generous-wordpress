@@ -43,7 +43,7 @@ class WP_Generous_Public_Data {
 	 * @return   array|false              The reqested data.
 	 */
 	public function get( $key ) {
-		return $this->data[ $key ];
+		return ( isset( $this->data[ $key ] ) ) ? $this->data[ $key ] : false;
 	}
 
 }

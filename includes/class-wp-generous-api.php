@@ -39,13 +39,11 @@ class WP_Generous_Api {
 	{
 
 		if ( ! self::$instance ) { 
-
 			self::$instance = new WP_Generous_Api( $plugin_options );
 
 			if ( false !== $plugin_options ) {
 				self::$instance->plugin_options = $plugin_options; 
 			}
-
 		}
 	
 		return self::$instance; 
@@ -56,7 +54,7 @@ class WP_Generous_Api {
 	 * Handles the Api request and returns the response.
 	 *
 	 * @since     0.1.0
-	 * @access   private
+	 * @access    private
 	 * @return    array|false             The Api response.
 	 */
 	private function request( $method, $endpoint ) {
