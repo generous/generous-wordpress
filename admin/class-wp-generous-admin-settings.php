@@ -153,6 +153,23 @@ class WP_Generous_Admin_Settings {
 	}
 
 	/**
+	 * Output the input for permalink.
+	 *
+	 * @since    0.1.0
+	 */
+	public function output_input_enable_load_more() {
+
+		if( true === $this->options['enable_load_more'] ) {
+			$value = 'checked ';
+		} else {
+			$value = '';
+		}
+
+		echo "<input name=\"{$this->option_group}[enable_load_more]\" type=\"checkbox\" value=\"true\" {$value}/>";
+
+	}
+
+	/**
 	 * Sanitize and validate fields.
 	 *
 	 * @since    0.1.0
@@ -195,6 +212,12 @@ class WP_Generous_Admin_Settings {
 
 		if ( isset( $input['sliders_per_page'] ) ) {
 			$results['sliders_per_page'] = ( $input['sliders_per_page'] <= 50 ) ? $input['sliders_per_page'] : 50;
+		}
+
+		if ( isset( $input['enable_load_more'] ) ) {
+			$results['enable_load_more'] = true;
+		} else {
+			$results['enable_load_more'] = false;
 		}
 
 		return $results;

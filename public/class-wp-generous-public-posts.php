@@ -39,6 +39,15 @@ class WP_Generous_Public_Posts {
 	public $current;
 
 	/**
+	 * Contains the general settings for the plugin specified by the user.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      array                            $options      The settings of the plugin.
+	 */
+	private $options;
+
+	/**
 	 * Obtain the original instance that was created.
 	 *
 	 * @since     0.1.0
@@ -140,34 +149,57 @@ class WP_Generous_Public_Posts {
 		global $wp_query;
 
 		$total = $wp_query->max_num_pages;
-		$big = 999999999;
 
 		if( $total > 1 )  {
 
-			if( ! $current_page = get_query_var('paged') )
+			if( ! $current_page = get_query_var('paged') ) {
 				$current_page = 1;
+			}
+
 			if( get_option('permalink_structure') ) {
 				$format = 'page/%#%/';
 			} else {
 				$format = '&paged=%#%';
 			}
 
-			$links = "\n<div class=\"generous-pagination\">\n";
+			$next_page = $current_page + 1;
 
-			$links .= paginate_links(array(
-				'base'          => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-				'format'        => $format,
-				'current'       => max( 1, get_query_var('paged') ),
-				'total'         => $total,
-				'mid_size'      => 3,
-				'type'          => 'list',
-				'prev_text'     => $prev_arrow,
-				'next_text'     => $next_arrow,
-			) );
+			$pagination = "\n<div class=\"generous-pagination\">\n";
 
-			$links .= '</div>';
+			if( false !== $this->options['enable_load_more'] ) {
 
-			return $links;
+				if( $total > 1 && $current_page < $total ) {
+
+					$url = esc_url( get_pagenum_link( $next_page ) );
+
+					$pagination .= "<a class=\"generous-load-more\" href=\"{$url}\">Load More</a>";
+
+				}
+
+			} else {
+
+				$big = 999999999;
+
+				$pagination .= paginate_links(array(
+					'base'          => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+					'format'        => $format,
+					'current'       => max( 1, get_query_var('paged') ),
+					'total'         => $total,
+					'mid_size'      => 3,
+					'type'          => 'list',
+					'prev_text'     => $prev_arrow,
+					'next_text'     => $next_arrow,
+				) );
+
+			}
+
+			$pagination .= '</div>';
+
+			return $pagination;
+
+		} else {
+
+			return '';
 
 		}
 

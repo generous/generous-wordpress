@@ -60,17 +60,21 @@ module.exports = function(grunt) {
       build: ['<%=wp_g.assets.paths.js.frontend.dest%>']
     },
     watch: {
-      concat: {
-        files: ['<%=wp_g.assets.path.src%>/js/**/*.js'],
-        tasks: ['concat']
-      },
       scss: {
         files: ['<%=wp_g.assets.path.src%>/sass/**/*.scss'],
         tasks: ['sass']
       },
+      concat: {
+        files: ['<%=wp_g.assets.path.src%>/js/**/*.js'],
+        tasks: ['concat']
+      },
       uglify: {
         files: ['<%=wp_g.assets.path.src%>/js/**/*.js'],
         tasks: ['uglify']
+      },
+      clean: {
+        files: ['<%=wp_g.assets.path.build%>/js/**/*.js'],
+        tasks: ['clean']
       }
     }
   });

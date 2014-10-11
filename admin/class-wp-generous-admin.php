@@ -204,6 +204,14 @@ class WP_Generous_Admin {
 			'section_sliders'
 		);
 
+		add_settings_field(
+			'enable_load_more',
+			'Enable Load More',
+			array( $this->settings, 'output_input_enable_load_more' ),
+			$this->settings->option_group,
+			'section_sliders'
+		);
+
 	}
 
 }
