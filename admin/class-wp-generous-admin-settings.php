@@ -109,7 +109,8 @@ class WP_Generous_Admin_Settings {
 			$value = $this->options['username'];
 		}
 
-		echo "<input name=\"{$this->option_group}[username]\" size=\"20\" type=\"text\" value=\"{$value}\" />";
+		echo "<input name=\"{$this->option_group}[username]\" size=\"20\" type=\"text\" value=\"{$value}\" /> ";
+		echo "<span class=\"description\">Your Generous username.</span>";
 
 	}
 
@@ -120,7 +121,8 @@ class WP_Generous_Admin_Settings {
 	 */
 	public function output_input_permalink() {
 
-		echo "<input name=\"{$this->option_group}[permalink]\" size=\"20\" type=\"text\" value=\"{$this->options['permalink']}\" />";
+		echo "<input name=\"{$this->option_group}[permalink]\" size=\"20\" type=\"text\" value=\"{$this->options['permalink']}\" /> ";
+		echo "<span class=\"description\">Entering 'store' translates to yoursite.com/store.</span>";
 
 	}
 
@@ -137,18 +139,8 @@ class WP_Generous_Admin_Settings {
 			$value = '';
 		}
 
-		echo "<input name=\"{$this->option_group}[enable_overlay]\" type=\"checkbox\" value=\"true\" {$value}/>";
-
-	}
-
-	/**
-	 * Output the input for permalink.
-	 *
-	 * @since    0.1.0
-	 */
-	public function output_input_sliders_per_page() {
-
-		echo "<input name=\"{$this->option_group}[sliders_per_page]\" size=\"20\" type=\"text\" value=\"{$this->options['sliders_per_page']}\" /> (Max: 50)";
+		echo "<input name=\"{$this->option_group}[enable_overlay]\" type=\"checkbox\" value=\"true\" {$value}/> ";
+		echo "<span class=\"description\">Load a slider overlay on click instead of loading a separate page.</span>";
 
 	}
 
@@ -165,7 +157,20 @@ class WP_Generous_Admin_Settings {
 			$value = '';
 		}
 
-		echo "<input name=\"{$this->option_group}[enable_load_more]\" type=\"checkbox\" value=\"true\" {$value}/>";
+		echo "<input name=\"{$this->option_group}[enable_load_more]\" type=\"checkbox\" value=\"true\" {$value}/> ";
+		echo "<span class=\"description\">Replaces previous/next pagination with a \"Load More\" button.</span>";
+
+	}
+
+	/**
+	 * Output the input for permalink.
+	 *
+	 * @since    0.1.0
+	 */
+	public function output_input_sliders_per_page() {
+
+		echo "<input name=\"{$this->option_group}[sliders_per_page]\" size=\"20\" type=\"text\" value=\"{$this->options['sliders_per_page']}\" /> ";
+		echo "<span class=\"description\">Max. 50</span>";
 
 	}
 

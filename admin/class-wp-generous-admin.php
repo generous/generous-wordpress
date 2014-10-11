@@ -150,8 +150,8 @@ class WP_Generous_Admin {
 
 		// Sections
 		add_settings_section(
-			'section_default',
-			'Default Settings',
+			'section_general',
+			'General Settings',
 			'',
 			$this->settings->option_group
 		);
@@ -163,21 +163,21 @@ class WP_Generous_Admin {
 			$this->settings->option_group
 		);
 
-		// Default Settings
+		// General Settings
 		add_settings_field(
 			'username',
 			'Username',
 			array( $this->settings, 'output_input_username' ),
 			$this->settings->option_group,
-			'section_default'
+			'section_general'
 		);
 
 		add_settings_field(
 			'permalink',
-			'Permalink',
+			'Permalink Slug',
 			array( $this->settings, 'output_input_permalink' ),
 			$this->settings->option_group,
-			'section_default'
+			'section_general'
 		);
 
 		// Slider Settings
@@ -197,17 +197,17 @@ class WP_Generous_Admin {
 		);
 
 		add_settings_field(
-			'sliders_per_page',
-			'Sliders Per Page',
-			array( $this->settings, 'output_input_sliders_per_page' ),
+			'enable_load_more',
+			'Enable Load More',
+			array( $this->settings, 'output_input_enable_load_more' ),
 			$this->settings->option_group,
 			'section_sliders'
 		);
 
 		add_settings_field(
-			'enable_load_more',
-			'Enable Load More',
-			array( $this->settings, 'output_input_enable_load_more' ),
+			'sliders_per_page',
+			'Sliders Per Page',
+			array( $this->settings, 'output_input_sliders_per_page' ),
 			$this->settings->option_group,
 			'section_sliders'
 		);
