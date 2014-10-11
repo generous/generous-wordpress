@@ -57,9 +57,9 @@ class WP_Generous_Api {
 	 * @access    private
 	 * @return    array|false             The Api response.
 	 */
-	private function request( $method, $endpoint ) {
+	private function request( $method, $endpoint, $params = array() ) {
 
-		$data = Generous::customRequest( $method, $endpoint );
+		$data = Generous::customRequest( $method, $endpoint, $params );
 
 		if ( $data && !isset($data['error'] ) ) {
 			return $data;
@@ -100,10 +100,26 @@ class WP_Generous_Api {
 	 *
 	 * @since     0.1.0
 	 * @var       string         $id      Category id.
+	 * @var       int|bool       $paged   The requested page number.
 	 * @return    array|false             Category data.
 	 */
-	public function get_category( $id ) {
-		return $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/categories/{$id}" );
+	public function get_category( $id, $paged = false ) {
+
+		$params = array();
+		$params['limit'] = $this->plugin_options['sliders_per_page'];
+
+		if(false !== $paged) {
+			$params['page'] = $paged;
+		}
+
+		$data = $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/categories/{$id}", $params );
+
+		if( is_array( $data['sliders'] ) && count( $data['sliders'] ) > 0 ) {
+			return $data;
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -122,10 +138,20 @@ class WP_Generous_Api {
 	 *
 	 * @since     0.1.0
 	 * @var       string         $id      Slug (category or slider).
+	 * @var       int|bool       $paged   The requested page number.
 	 * @return    array                   Unknown data.
 	 */
-	public function get_unknown( $id ) {
-		return $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/verify/{$id}" );
+	public function get_unknown( $id, $paged = false ) {
+
+		$params = array();
+		$params['limit'] = $this->plugin_options['sliders_per_page'];
+
+		if( false !== $paged ) {
+			$params['page'] = $paged;
+		}
+
+		return $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/verify/{$id}", $params );
+
 	}
 
 }

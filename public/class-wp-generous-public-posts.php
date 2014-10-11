@@ -128,6 +128,52 @@ class WP_Generous_Public_Posts {
 	}
 
 	/**
+	 * Outputs the pagination of the current category.
+	 *
+	 * @since    0.1.0
+	 * @var      string         $prev_arrow   The previous arrow label.
+	 * @var      string         $prev_arrow   The next arrow label.
+	 * @return   string                       The html content of pagination.
+	 */
+	public function get_pagination( $prev_arrow = '&larr;', $next_arrow = '&rarr;' ) {
+
+		global $wp_query;
+
+		$total = $wp_query->max_num_pages;
+		$big = 999999999;
+
+		if( $total > 1 )  {
+
+			if( ! $current_page = get_query_var('paged') )
+				$current_page = 1;
+			if( get_option('permalink_structure') ) {
+				$format = 'page/%#%/';
+			} else {
+				$format = '&paged=%#%';
+			}
+
+			$links = "\n<div class=\"generous-pagination\">\n";
+
+			$links .= paginate_links(array(
+				'base'          => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+				'format'        => $format,
+				'current'       => max( 1, get_query_var('paged') ),
+				'total'         => $total,
+				'mid_size'      => 3,
+				'type'          => 'list',
+				'prev_text'     => $prev_arrow,
+				'next_text'     => $next_arrow,
+			) );
+
+			$links .= '</div>';
+
+			return $links;
+
+		}
+
+	}
+
+	/**
 	 * Sets the plugin options.
 	 *
 	 * @since    0.1.0

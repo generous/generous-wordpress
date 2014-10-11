@@ -253,9 +253,10 @@ class WP_Generous {
 
 		$defaults = array(
 			'permalink' => 'store',
-			'enable_overlay' => true
+			'enable_overlay' => true,
+			'sliders_per_page' => 25
 		);
-		
+
 		return wp_parse_args( get_option( $this->options_id ), $defaults );
 	}
 

@@ -7,9 +7,9 @@
  */
 function wp_generous_have_categories() {
 
-    $post = WP_Generous_Public_Posts::obtain();
+	$post = WP_Generous_Public_Posts::obtain();
 
-    return $post->have( 'categories' );
+	return $post->have( 'categories' );
 
 }
 
@@ -20,9 +20,9 @@ function wp_generous_have_categories() {
  */
 function wp_generous_have_sliders() {
 
-    $post = WP_Generous_Public_Posts::obtain();
+	$post = WP_Generous_Public_Posts::obtain();
 
-    return $post->have( 'sliders' );
+	return $post->have( 'sliders' );
 
 }
 
@@ -33,9 +33,9 @@ function wp_generous_have_sliders() {
  */
 function wp_generous_the_title() {
 
-    $post = WP_Generous_Public_Posts::obtain();
+	$post = WP_Generous_Public_Posts::obtain();
 
-    echo $post->get_title();
+	echo $post->get_title();
 
 }
 
@@ -46,9 +46,9 @@ function wp_generous_the_title() {
  */
 function wp_generous_the_content() {
 
-    $post = WP_Generous_Public_Posts::obtain();
+	$post = WP_Generous_Public_Posts::obtain();
 
-    echo $post->get_content();
+	echo $post->get_content();
 
 }
 
@@ -59,8 +59,23 @@ function wp_generous_the_content() {
  */
 function wp_generous_the_permalink() {
 
-    $post = WP_Generous_Public_Posts::obtain();
+	$post = WP_Generous_Public_Posts::obtain();
 
-    echo $post->get_permalink();
+	echo $post->get_permalink();
+
+}
+
+/**
+ * Outputs the pagination of a specified category.
+ *
+ * @since    0.1.0
+ * @var      string         $prev_arrow   The previous arrow label.
+ * @var      string         $prev_arrow   The next arrow label.
+ */
+function wp_generous_pagination( $prev_arrow = '&larr;', $next_arrow = '&rarr;' ) {
+
+	$post = WP_Generous_Public_Posts::obtain();
+
+	echo $post->get_pagination( $prev_arrow, $next_arrow );
 
 }

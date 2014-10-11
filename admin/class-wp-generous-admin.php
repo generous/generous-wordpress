@@ -196,6 +196,14 @@ class WP_Generous_Admin {
 			'section_sliders'
 		);
 
+		add_settings_field(
+			'sliders_per_page',
+			'Sliders Per Page',
+			array( $this->settings, 'output_input_sliders_per_page' ),
+			$this->settings->option_group,
+			'section_sliders'
+		);
+
 	}
 
 }

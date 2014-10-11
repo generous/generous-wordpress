@@ -142,6 +142,17 @@ class WP_Generous_Admin_Settings {
 	}
 
 	/**
+	 * Output the input for permalink.
+	 *
+	 * @since    0.1.0
+	 */
+	public function output_input_sliders_per_page() {
+
+		echo "<input name=\"{$this->option_group}[sliders_per_page]\" size=\"20\" type=\"text\" value=\"{$this->options['sliders_per_page']}\" /> (Max: 50)";
+
+	}
+
+	/**
 	 * Sanitize and validate fields.
 	 *
 	 * @since    0.1.0
@@ -180,6 +191,10 @@ class WP_Generous_Admin_Settings {
 			$results['enable_overlay'] = true;
 		} else {
 			$results['enable_overlay'] = false;
+		}
+
+		if ( isset( $input['sliders_per_page'] ) ) {
+			$results['sliders_per_page'] = ( $input['sliders_per_page'] <= 50 ) ? $input['sliders_per_page'] : 50;
 		}
 
 		return $results;

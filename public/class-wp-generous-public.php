@@ -214,11 +214,19 @@ class WP_Generous_Public {
 	 * @since    0.1.0
 	 */
 	public function add_rewrite_rules() {
+
+		add_rewrite_rule(
+			'^'.$this->options['permalink'].'/([^/]*)/page/([^/]*)/?',
+			'index.php?generous_category=$matches[1]&paged=$matches[2]',
+			'top'
+		);
+
 		add_rewrite_rule(
 			'^'.$this->options['permalink'].'/([^/]*)/?',
 			'index.php?generous_page=$matches[1]&generous_category=$matches[1]&generous_slider=$matches[1]',
 			'top'
 		);
+
 	}
 
 	/**
@@ -309,7 +317,9 @@ class WP_Generous_Public {
 		if ( $id = get_query_var( 'generous_page' ) ) {
 
 			$query_var = 'generous_page';
-			$data = $this->get_data( $query_var, $id);
+			$paged = (get_query_var( 'paged' )) ? get_query_var( 'paged' ) : false;
+
+			$data = $this->get_data( $query_var, $id, $paged);
 
 			return $this->query->run( $query_var, $id, $data );
 
@@ -317,7 +327,9 @@ class WP_Generous_Public {
 		} else if ( $id = get_query_var( 'generous_category' ) ) {
 
 			$query_var = 'generous_category';
-			$data = $this->get_data( $query_var, $id);
+			$paged = (get_query_var( 'paged' )) ? get_query_var( 'paged' ) : false;
+
+			$data = $this->get_data( $query_var, $id, $paged);
 
 			return $this->query->run( $query_var, $id, $data );
 
@@ -325,6 +337,7 @@ class WP_Generous_Public {
 		} else if ( $id = get_query_var( 'generous_slider' ) ) {
 
 			$query_var = 'generous_slider';
+
 			$data = $this->get_data( $query_var, $id);
 
 			return $this->query->run( $query_var, $id, $data );
@@ -345,24 +358,25 @@ class WP_Generous_Public {
 	}
 
 	/**
-	 * Checks for necessary plugin options, and retrieves and saves data from Api.
+	 * Checks for required plugin options, and retrieves and saves data from Api.
 	 *
 	 * @since    0.1.0
 	 * @var      array     $query_var  The requested query variable.
 	 * @var      string    $id         The value of the query variable.
+	 * @var      int|bool  $paged      The requested page number.
 	 * @return   array                 The retrieved data.
 	 */
-	public function get_data( $query_var, $id ) {
+	public function get_data( $query_var, $id, $paged = false ) {
 
-		if ( true === $this->has_necessary_options() ) {
+		if ( true === $this->has_required_options() ) {
 
 			switch( $query_var ) {
 				case 'generous_page':
-					$data = $this->api->get_unknown( $id );
+					$data = $this->api->get_unknown( $id, $paged );
 				break;
 
 				case 'generous_category':
-					$data = $this->api->get_category( $id );
+					$data = $this->api->get_category( $id, $paged );
 				break;
 
 				case 'generous_slider':
@@ -465,7 +479,7 @@ class WP_Generous_Public {
 
 		$slug = $this->options['permalink'];
 
-		$has_options = $this->has_necessary_options();
+		$has_options = $this->has_required_options();
 		$has_no_posts = count( $wp_query->posts == 0 );
 		$is_request_slug = strtolower( $wp->request ) == $slug;
 
@@ -480,13 +494,13 @@ class WP_Generous_Public {
 	}
 
 	/**
-	 * Checks if the necessary options are set.
+	 * Checks if the required options are set.
 	 *
 	 * @since    0.1.0
 	 * @access   private
 	 * @return   bool                 True if yes, false if no.
 	 */
-	private function has_necessary_options() {
+	private function has_required_options() {
 		return ( isset( $this->options['username'], $this->options['permalink'] ) ) ? true : false;
 	}
 

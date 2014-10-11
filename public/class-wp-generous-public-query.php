@@ -197,6 +197,8 @@ class WP_Generous_Public_Query {
 				$posts[] = $post;
 
 			}
+			
+			$this->wp_query->max_num_pages = $data['page']['total'];
 
 		}
 

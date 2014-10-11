@@ -1,5 +1,6 @@
-@import "general/config";
-@import "general/helpers";
-@import "general/mixins";
+@import "settings/config";
+@import "settings/helpers";
+@import "settings/mixins";
 
+@import "public/general";
 @import "public/templates";
