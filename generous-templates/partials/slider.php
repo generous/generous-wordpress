@@ -26,7 +26,7 @@
     <div class="details">
 
         <div class="suggested-price">
-            [currency_symbol][suggested_price_whole]
+            [currency_symbol][suggested_price_whole]+
         </div>
 
         <div class="generous-buy">

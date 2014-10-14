@@ -124,7 +124,7 @@ class WP_Generous_Public_Posts {
 	 * @since    0.1.0
 	 */
 	public function get_permalink() {
-		return $this->data[ $this->current ]->get_permalink();
+		return $this->data[ $this->current ]->get_permalink( $this->options );
 	}
 
 	/**
@@ -209,6 +209,7 @@ class WP_Generous_Public_Posts {
 	 * Sets the plugin options.
 	 *
 	 * @since    0.1.0
+	 * @var      array          $options      The settings of the plugin.
 	 */
 	public function set_options( $options ) {
 		$this->options = $options;

@@ -86,6 +86,32 @@ class WP_Generous_Api {
 	}
 
 	/**
+	 * Get the default store sliders.
+	 *
+	 * @since     0.1.0
+	 * @var       int|bool       $paged   The requested page number.
+	 * @return    array|false             Default store data.
+	 */
+	public function get_store_default( $paged = false ) {
+
+		$params = array();
+		$params['limit'] = $this->plugin_options['sliders_per_page'];
+
+		if(false !== $paged) {
+			$params['page'] = $paged;
+		}
+
+		$data = $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/default", $params );
+
+		if( is_array( $data['sliders'] ) && count( $data['sliders'] ) > 0 ) {
+			return $data;
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
 	 * Get the list of categories for the specified account.
 	 *
 	 * @since     0.1.0

@@ -42,7 +42,7 @@ class WP_Generous_Public_Output {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @var      string                               $options          The settings of the plugin.
+	 * @var      array                                $options          The settings of the plugin.
 	 */
 	public function __construct( $options = false, $templates = false ) {
 		if ( false !== $options ) {

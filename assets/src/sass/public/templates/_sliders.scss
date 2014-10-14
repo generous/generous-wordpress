@@ -2,9 +2,12 @@
   margin-left: -20px;
   .generous-slider-item {
     float: left;
-    width: 20%;
+    width: 16.66%;
     padding-left: 20px;
     margin-bottom: 20px;
+    @media only screen and (max-width: 1500px) {
+      width: 20%;
+    }
     @media only screen and (max-width: 1200px) {
       width: 25%;
     }

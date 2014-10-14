@@ -14,5 +14,5 @@
  */
 ?>
 
-[generous categories]           
-[generous category]
+[generous categories]
+[generous category=featured]

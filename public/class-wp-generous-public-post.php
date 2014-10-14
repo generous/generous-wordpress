@@ -119,9 +119,10 @@ class WP_Generous_Public_Post {
 	 * Gets the permalink.
 	 *
 	 * @since    0.1.0
+	 * @var      array    $options      The settings of the plugin.
 	 * @return   string                 The url to output.
 	 */
-	public function get_permalink() {
+	public function get_permalink( $options = false) {
 
 		$data = $this->get_data();
 
@@ -129,6 +130,12 @@ class WP_Generous_Public_Post {
 		$link->permalink = $this->permalink;
 		$link->query_var = $this->type;
 		$link->query_val = $data['slug'];
+
+		if( false !== $options && $this->type === 'sliders' ) {
+			if( true === $options['enable_overlay'] ) {
+				return $data['short_url'];
+			}
+		}
 
 		return $link->get();
 

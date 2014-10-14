@@ -62,22 +62,22 @@ class WP_Generous_Public_Shortcodes {
 			'page'       => array($this, 'page'),
 		);
 
-		if ( isset( $atts ) && is_array( $atts) ) {
+		if ( isset( $atts ) && is_array( $atts ) ) {
 
-			$is_assoc = (bool)count(array_filter(array_keys($atts), 'is_string'));
+			$is_assoc = (bool)count( array_filter( array_keys( $atts ), 'is_string' ) );
 
 			if ( ! $is_assoc ) {
-				foreach( $atts as $key => $value) {
-					foreach($shortcodes as $code => $func) {
-						if( $value == $code ) {
-							return $this->wrapper($func, $atts);
+				foreach ( $atts as $key => $value) {
+					foreach ( $shortcodes as $code => $func ) {
+						if ( $value == $code ) {
+							return $this->wrapper( $func, $atts );
 						}
 					}
 				}
 			} else {
-				foreach($shortcodes as $code => $func) {
-					if( isset( $atts[$code] ) ) {
-						return $this->wrapper($func, $atts);
+				foreach ( $shortcodes as $code => $func ) {
+					if ( isset( $atts[ $code ] ) ) {
+						return $this->wrapper( $func, $atts );
 					}
 				}
 			}
@@ -129,7 +129,7 @@ class WP_Generous_Public_Shortcodes {
 
 		$data = $this->api->get_categories();
 
-		if( false !== $data ) {
+		if ( false !== $data ) {
 			return $this->output->shortcode_categories( $data );
 		} else {
 			return '';
@@ -149,10 +149,10 @@ class WP_Generous_Public_Shortcodes {
 
 		$data = $this->api->get_unknown( $id );
 
-		if( false !== $data ) {
-			if( isset( $data['sliders'] ) ) {
+		if ( false !== $data ) {
+			if ( isset( $data['sliders'] ) ) {
 				return $this->output->shortcode_category( $data );
-			} else if( isset( $data['slider'] ) ) {
+			} else if ( isset( $data['slider'] ) ) {
 				return $this->output->slider( $data['slider'] );
 			}
 		}
@@ -169,9 +169,13 @@ class WP_Generous_Public_Shortcodes {
 	 */
 	private function category( $id ) {
 
-		$data = $this->api->get_category( $id );
+		if ( 'featured' === $id ) {
+			$data = $this->api->get_store_default();
+		} else {
+			$data = $this->api->get_category( $id );
+		}
 
-		if( false !== $data ) {
+		if ( false !== $data ) {
 			return $this->output->shortcode_category( $data );  
 		}
 
@@ -189,7 +193,7 @@ class WP_Generous_Public_Shortcodes {
 
 		$data = $this->api->get_slider( $id );
 
-		if( false !== $data ) {
+		if ( false !== $data ) {
 			return $this->output->slider( $data['slider'] );
 		}   
 
