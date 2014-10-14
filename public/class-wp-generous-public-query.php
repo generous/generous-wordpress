@@ -123,11 +123,9 @@ class WP_Generous_Public_Query {
 			if ( $type == 'generous_page' ) {
 
 				if ( isset( $data['sliders'] ) ) {
-
 					return $this->category( $data );
 				} else {
 					return $this->slider( $data );
-
 				}
 
 			} else if ( $type == 'generous_category' ) {
@@ -168,6 +166,12 @@ class WP_Generous_Public_Query {
 		$posts = NULL;
 
 		if ( isset( $data['sliders'] ) ) {
+
+			// Set missing data for default/featured category
+			if ( ! isset( $data['slug'], $data['title'] ) ) {
+				$data['title'] = $this->options['title'];
+				$data['slug'] = '';
+			}
 
 			$taxonomy_query = $this->create_taxonomy_query(array(
 				'term_id'  => 0,

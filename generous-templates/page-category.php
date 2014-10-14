@@ -16,31 +16,31 @@
 ?>
 <?php get_header(); ?>
 
-    <main role="generous-store">
+	<main role="generous-store">
 
-        <section>
+		<section>
 
-            <h1><?php single_cat_title(); ?></h1>
+			<h1><?php single_cat_title(); ?></h1>
 
-        <?php if (have_posts()): ?>
+		<?php if (have_posts()): ?>
 
-            <div class="generous-sliders">
+			<div class="generous-sliders">
 
-            <?php while (have_posts()) : the_post(); ?>
+			<?php while (have_posts()) : the_post(); ?>
 
-                <?php the_content(); ?>
+				<?php the_content(); ?>
 
-            <?php endwhile; ?>
+			<?php endwhile; ?>
 
-            </div>
+			</div>
 
-            <?php wp_generous_pagination( '<', '>' ); ?>
+			<?php wp_generous_pagination( '<', '>' ); ?>
 
-        <?php endif; ?>
+		<?php endif; ?>
 
-        </section>
+		</section>
 
-    </main>
+	</main>
 
 <?php get_sidebar(); ?>
 

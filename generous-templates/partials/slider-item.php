@@ -18,24 +18,24 @@
 
 <div class="generous-slider-item">
 
-    <a href="<?php the_permalink(); ?>">
-    
-        <div class="cover-photo">
-            <img src="[cover_photo]" />
-        </div>
+	<a href="<?php the_permalink(); ?>">
 
-        <div class="details">
+		<div class="cover-photo">
+			<img src="[cover_photo]" />
+		</div>
 
-            <div class="title">
-                [title]
-            </div>
+		<div class="details">
 
-            <div class="suggested-price">
-                [currency_symbol][suggested_price_whole]+
-            </div>
+			<div class="title">
+				[title]
+			</div>
 
-        </div>
+			<div class="suggested-price">
+				[currency_symbol][suggested_price_whole]+
+			</div>
 
-    </a>
+		</div>
+
+	</a>
 
 </div>

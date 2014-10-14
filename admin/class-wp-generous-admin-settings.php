@@ -158,7 +158,7 @@ class WP_Generous_Admin_Settings {
 		}
 
 		echo "<input name=\"{$this->option_group}[enable_load_more]\" type=\"checkbox\" value=\"true\" {$value}/> ";
-		echo "<span class=\"description\">Replaces previous/next pagination with a \"Load More\" button.</span>";
+		echo "<span class=\"description\">Replaces previous/next pagination with an ajax-based \"Load More\" button.</span>";
 
 	}
 

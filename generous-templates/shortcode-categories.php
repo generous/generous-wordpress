@@ -19,10 +19,10 @@
 
 <ul class="generous-categories">
 
-    <?php while( wp_generous_have_categories() ): ?>
-        
-        <?php wp_generous_the_content(); ?>
+<?php while( wp_generous_have_categories() ): ?>
 
-    <?php endwhile; ?>
+	<?php wp_generous_the_content(); ?>
+
+<?php endwhile; ?>
 
 </ul>

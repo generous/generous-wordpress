@@ -216,16 +216,29 @@ class WP_Generous_Public {
 	public function add_rewrite_rules() {
 
 		add_rewrite_rule(
-			'^'.$this->options['permalink'].'/([^/]*)/page/([^/]*)/?',
+			'^' . $this->options['permalink'] . '/page/([^/]*)/?',
+			'index.php?generous_category=featured&paged=$matches[1]',
+			'top'
+		);
+
+		add_rewrite_rule(
+			'^' . $this->options['permalink'] . '/([^/]*)/page/([^/]*)/?',
 			'index.php?generous_category=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 
 		add_rewrite_rule(
-			'^'.$this->options['permalink'].'/([^/]*)/?',
+			'^' . $this->options['permalink'] . '/([^/]*)/?',
 			'index.php?generous_page=$matches[1]&generous_category=$matches[1]&generous_slider=$matches[1]',
 			'top'
 		);
+
+		add_rewrite_rule(
+			'^'  .$this->options['permalink'] . '/?',
+			'index.php?generous_category=featured',
+			'top'
+		);
+
 
 	}
 
@@ -284,8 +297,12 @@ class WP_Generous_Public {
 
 		} else if ( $id = get_query_var( 'generous_category' ) ) {
 
-			if( false !== $this->data->get( $id ) ) {
-				$template = $this->templates->load('page-category');
+			if ( false !== $this->data->get( $id ) ) {
+				if ( 'featured' === $id ) {
+					$template = $this->templates->load('page-default');
+				} else {
+					$template = $this->templates->load('page-category');
+				}
 			}
 
 		} else if ( $id = get_query_var( 'generous_slider' ) ) {
@@ -317,7 +334,7 @@ class WP_Generous_Public {
 		if ( $id = get_query_var( 'generous_page' ) ) {
 
 			$query_var = 'generous_page';
-			$paged = (get_query_var( 'paged' )) ? get_query_var( 'paged' ) : false;
+			$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : false;
 
 			$data = $this->get_data( $query_var, $id, $paged);
 
@@ -327,7 +344,7 @@ class WP_Generous_Public {
 		} else if ( $id = get_query_var( 'generous_category' ) ) {
 
 			$query_var = 'generous_category';
-			$paged = (get_query_var( 'paged' )) ? get_query_var( 'paged' ) : false;
+			$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : false;
 
 			$data = $this->get_data( $query_var, $id, $paged);
 
@@ -345,7 +362,13 @@ class WP_Generous_Public {
 		// Check default page
 		} else if ( $this->is_default() ) {
 
-			return $this->query->run( 'default' );
+			$id = 'featured';
+			$query_var = 'generous_category';
+			$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : false;
+
+			$data = $this->get_data( $query_var, $id, $paged);
+
+			return $this->query->run( $query_var, $id, $data );
 
 		} else {
 
@@ -371,17 +394,35 @@ class WP_Generous_Public {
 		if ( true === $this->has_required_options() ) {
 
 			switch( $query_var ) {
+
 				case 'generous_page':
+
 					$data = $this->api->get_unknown( $id, $paged );
+
 				break;
 
 				case 'generous_category':
-					$data = $this->api->get_category( $id, $paged );
+
+					if ( 'featured' === $id ) {
+						$data = $this->api->get_store_default( $paged );
+					} else {
+						$data = $this->api->get_category( $id, $paged );
+					}
+
 				break;
 
 				case 'generous_slider':
+
 					$data = $this->api->get_unknown( $id );
+
 				break;
+
+				case 'default':
+
+					$data = $this->api->get_store_default();
+
+				break;
+				
 			}
 
 			$this->data->add( $id, $data );

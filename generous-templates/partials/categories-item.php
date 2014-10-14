@@ -17,8 +17,8 @@
 
 <li>
 
-    <a href="<?php wp_generous_the_permalink(); ?>">
-        [title]
-    </a>
-    
+	<a href="<?php wp_generous_the_permalink(); ?>">
+		[title]
+	</a>
+
 </li>

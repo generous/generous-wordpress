@@ -20,7 +20,11 @@
 <div class="generous-sliders">
 
 <?php while( wp_generous_have_sliders() ): ?>
-    <?php wp_generous_the_content(); ?>
+
+	<?php wp_generous_the_content(); ?>
+
 <?php endwhile; ?>
 
 </div>
+
+<?php wp_generous_pagination( '<', '>' ); ?>
