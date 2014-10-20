@@ -16,6 +16,7 @@ class WP_Generous_Link {
      *
      * @since    0.1.0
      * @access   private
+     *
      * @var      array    $query_vars      A list of query variables with relatable IDs.
      */
     private $query_vars = array(
@@ -32,6 +33,7 @@ class WP_Generous_Link {
      *
      * @since    0.1.0
      * @access   private
+     *
      * @var      string    $permalinks      Whether or not permalinks are active.
      */
     private $permalinks;
@@ -41,6 +43,7 @@ class WP_Generous_Link {
      *
      * @since    0.1.0
      * @access   public
+     *
      * @var      string    $permalink       The endpoint specified within the plugin options.
      */
     public $permalink;
@@ -50,6 +53,7 @@ class WP_Generous_Link {
      *
      * @since    0.1.0
      * @access   public
+     *
      * @var      string    $query_var       The variable name of the query parameter.
      */
     public $query_var;
@@ -59,6 +63,7 @@ class WP_Generous_Link {
      *
      * @since    0.1.0
      * @access   public
+     *
      * @var      string    $query_val       The value of the query parameter.
      */
     public $query_val;
@@ -68,6 +73,7 @@ class WP_Generous_Link {
      *
      * @since    0.1.0
      * @access   public
+     *
      * @var      string    $query_val       Whether or not permalinks are active.
      */
     public function __construct( $permalinks = NULL ) {
@@ -89,6 +95,7 @@ class WP_Generous_Link {
      * Returns a url.
      *
      * @since    0.1.0
+     *
      * @return   string                     The url to output.
      */
     public function get() {
@@ -103,8 +110,10 @@ class WP_Generous_Link {
      * Returns a url.
      *
      * @since    0.1.0
-     * @var      string    $post_link       Current link. Invalid, do not use.
-     * @var      string    $post            Current post. Invalid, do not use.
+     *
+     * @param    string    $post_link       Current link. Invalid, do not use.
+     * @param    string    $post            Current post. Invalid, do not use.
+     *
      * @return   string                     The url to output.
      */
     public function filter_the_permalink( $post_link, $post ) {

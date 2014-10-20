@@ -1,5 +1,5 @@
-=== Plugin Name ===
-Contributors: matthewgovaere, robertlenz
+=== Generous ===
+Contributors: genero.us, matthewgovaere
 Tags: generous, pay-what-you-want, pay what you want, slider, ecommerce, e-commerce, store, shop, sell
 Requires at least: 3.8
 Tested up to: 4.0
@@ -20,4 +20,4 @@ The Generous plugin for Wordpress allows you to easily output a Generous store o
 == Changelog ==
 
 = 0.1.0 =
-* Initial version
+* Initial release.

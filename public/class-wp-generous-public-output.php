@@ -16,6 +16,7 @@ class WP_Generous_Public_Output {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      string                               $permalink         The root endpoint of the permalink structure.
 	 */
 	private static $permalink;
@@ -25,6 +26,7 @@ class WP_Generous_Public_Output {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Output_Filters    $filters           Maintains methods to convert filters to data.
 	 */
 	private static $filters;
@@ -34,6 +36,7 @@ class WP_Generous_Public_Output {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Templates         $templates        Loads user or default templates.
 	 */
 	private static $templates;
@@ -42,7 +45,8 @@ class WP_Generous_Public_Output {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @var      array                                $options          The settings of the plugin.
+	 *
+	 * @param    array                                $options          The settings of the plugin.
 	 */
 	public function __construct( $options = false, $templates = false ) {
 		if ( false !== $options ) {
@@ -56,6 +60,7 @@ class WP_Generous_Public_Output {
 	 * Outputs a store.
 	 *
 	 * @since    0.1.0
+	 *
 	 * @return   string                      The gathered html to output.
 	 */
 	public function shortcode_store() {
@@ -72,7 +77,9 @@ class WP_Generous_Public_Output {
 	 * Outputs a single slider.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data              Data from the specified slider.
+	 *
+	 * @param    array    $data              Data from the specified slider.
+	 *
 	 * @return   string                      The gathered html to output.
 	 */
 	public function slider( $data ) {
@@ -89,7 +96,9 @@ class WP_Generous_Public_Output {
 	 * Outputs sliders from a category.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data              Data from the specified category.
+	 *
+	 * @param    array    $data              Data from the specified category.
+	 *
 	 * @return   string                      The gathered html to output.
 	 */
 	public function shortcode_category( $data ) {
@@ -108,7 +117,9 @@ class WP_Generous_Public_Output {
 	 * Outputs a slider item.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data              Data from the specified slider.
+	 *
+	 * @param    array    $data              Data from the specified slider.
+	 *
 	 * @return   string                      The gathered html to output.
 	 */
 	public function slider_item( $data ) {
@@ -125,7 +136,9 @@ class WP_Generous_Public_Output {
 	 * Outputs the list of categories.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data              Data from the specified slider.
+	 *
+	 * @param    array    $data              Data from the specified slider.
+	 *
 	 * @return   string                      The gathered html to output.
 	 */
 	public function shortcode_categories( $data ) {
@@ -144,7 +157,9 @@ class WP_Generous_Public_Output {
 	 * Outputs a category item.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data              Data from the specified slider.
+	 *
+	 * @param    array    $data              Data from the specified slider.
+	 *
 	 * @return   string                      The gathered html to output.
 	 */
 	public function categories_item( $data ) {

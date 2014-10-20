@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Generous
- * Plugin URI:        https://genero.us
+ * Plugin URI:        https://github.com/generous/generous-wordpress
  * Description:       Integrate Generous sliders within your website. Official Generous plugin.
  * Version:           0.1.0
  * Author:            Generous
@@ -36,6 +36,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
+	 *
 	 * @var      string                $version         The current version of the plugin.
 	 */
 	protected $version = '0.1.0';
@@ -54,6 +55,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
+	 *
 	 * @var      string                $options_id      The id of the options.
 	 */
 	protected $options_id = 'generous_settings';
@@ -64,6 +66,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
+	 *
 	 * @var      WP_Generous_Loader    $loader          Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -73,6 +76,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
+	 *
 	 * @var      WP_Generous_Api       $api             Maintains all Generous API requests.
 	 */
 	protected $api;
@@ -87,12 +91,11 @@ class WP_Generous {
 	 * @since    0.1.0
 	 */
 	public function __construct() {
-
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
+		$this->run();
 	}
 
 	/**
@@ -208,7 +211,7 @@ class WP_Generous {
 	 *
 	 * @since    0.1.0
 	 */
-	public function run() {
+	private function run() {
 		$this->loader->run();
 	}
 
@@ -217,6 +220,7 @@ class WP_Generous {
 	 * WordPress and to define internationalization functionality.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_Generous() {
@@ -227,6 +231,7 @@ class WP_Generous {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    WP_Generous_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
@@ -237,6 +242,7 @@ class WP_Generous {
 	 * Retrieve the version number of the plugin.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
@@ -247,6 +253,7 @@ class WP_Generous {
 	 * Retrieve the options of the plugin.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    array     The options of the plugin.
 	 */
 	public function get_options() {
@@ -269,8 +276,8 @@ class WP_Generous {
  * @since    0.1.0
  */
 function wp_generous_init() {
-	$plugin = new WP_Generous();
-	$plugin->run();
+	global $wp_plugin_generous;
+	$wp_plugin_generous = new WP_Generous();
 }
 
 wp_generous_init();

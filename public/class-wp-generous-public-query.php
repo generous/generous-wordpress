@@ -16,6 +16,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Output    $output             Maintains methods to convert data to html templates.
 	 */
 	private $output;
@@ -25,6 +26,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      array                        $options            The settings of the plugin.
 	 */
 	private $options;
@@ -34,6 +36,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      array                        $root_slug          The root slug of the permalink.
 	 */
 	private $root_slug;
@@ -43,6 +46,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      array                        $title              The default page title.
 	 */
 	private $title;
@@ -52,6 +56,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP                           $wp                 Global variable $wp.
 	 */
 	private $wp;
@@ -61,6 +66,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Query                     $wp_query           Global variable $wp_query.
 	 */
 	private $wp_query;
@@ -70,6 +76,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      string                       $current_link       The current link of post being looped.
 	 */
 	private $current_link;
@@ -78,8 +85,9 @@ class WP_Generous_Public_Query {
 	 * Initialize the class, set its properties.
 	 *
 	 * @since    0.1.0
-	 * @var      WP_Generous_Public_Output    $output             Maintains methods to convert data to html templates.
-	 * @var      array                        $options            The settings of the plugin.
+	 *
+	 * @param    WP_Generous_Public_Output    $output             Maintains methods to convert data to html templates.
+	 * @param    array                        $options            The settings of the plugin.
 	 */
 	public function __construct( $output, $options ) {
 
@@ -95,9 +103,11 @@ class WP_Generous_Public_Query {
 	 * Generates data and content, and creates phantom Wordpress queries/posts.
 	 *
 	 * @since    0.1.0
-	 * @var      array          $type         The requested page type.
-	 * @var      array|false    $id           The specified id.
-	 * @var      array|false    $data         The retrieved data.
+	 *
+	 * @param    array          $type         The requested page type.
+	 * @param    array|false    $id           The specified id.
+	 * @param    array|false    $data         The retrieved data.
+	 *
 	 * @return   array                        The updated Wordpress posts.
 	 */
 	public function run( $type, $id = false, $data = false ) {
@@ -146,7 +156,9 @@ class WP_Generous_Public_Query {
 	 * Register the url for the_permalink.
 	 *
 	 * @since    0.1.0
-	 * @var      array          $url          The current url.
+	 *
+	 * @param    array          $url          The current url.
+	 *
 	 * @return   string                       The url of the item being looped.
 	 */
 	public function custom_the_permalink( $url ) {
@@ -158,7 +170,9 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      array|false    $data         The retrieved category data.
+	 *
+	 * @param    array|false    $data         The retrieved category data.
+	 *
 	 * @return   array                        The posts.
 	 */
 	private function category( $data ) {
@@ -221,7 +235,9 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      array          $data         The retrieved slider data.
+	 *
+	 * @param    array          $data         The retrieved slider data.
+	 *
 	 * @return   array                        The posts.
 	 */
 	private function slider( $data ) {
@@ -259,6 +275,7 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @return   array                        The posts.
 	 */
 	private function default_page() {
@@ -290,7 +307,9 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      array          $message    The message to output, if allowed.
+	 *
+	 * @param    array          $message    The message to output, if allowed.
+	 *
 	 * @return   array                      Empty posts.
 	 */
 	private function set_404( $message = 'Page not found' ) {
@@ -320,8 +339,10 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      array          $data       The data to pull info from.
-	 * @var      array          $type       The type of post.
+	 *
+	 * @param    array          $data       The data to pull info from.
+	 * @param    array          $type       The type of post.
+	 *
 	 * @return   WP_Post|false              The phantom Wordpress Post object.
 	 */
 	private function create_wp_post( $data, $type ) {
@@ -370,7 +391,9 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      array          $params     Contains data to set.
+	 *
+	 * @param    array          $params     Contains data to set.
+	 *
 	 * @return   object                     The post data object.
 	 */
 	private function create_post( $params ) {
@@ -402,7 +425,9 @@ class WP_Generous_Public_Query {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      array          $params     Contains data to set.
+	 *
+	 * @param    array          $params     Contains data to set.
+	 *
 	 * @return   object                     The taxonomy data object.
 	 */
 	private function create_taxonomy_query( $params ) {

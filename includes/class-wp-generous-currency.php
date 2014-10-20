@@ -16,6 +16,7 @@ class WP_Generous_Currency {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      WP_Generous_Currency      $instance     The instance of this class.
 	 */
 	public static $instance;
@@ -24,10 +25,10 @@ class WP_Generous_Currency {
 	 * Obtain the original instance that was created.
 	 *
 	 * @since    0.1.0
+	 *
 	 * @return   WP_Generous_Currency                    The instance of this class.
 	 */
-	public static function obtain()
-	{
+	public static function obtain() {
 		if ( ! self::$instance ) { 
 			self::$instance = new WP_Generous_Currency();
 		}
@@ -39,9 +40,11 @@ class WP_Generous_Currency {
 	 * Output the specified amount to the proper formatting.
 	 *
 	 * @since    0.1.0
-	 * @var      int|float       $value     The value to format.
-	 * @var      string          $cur       The currency.
-	 * @var      string          $type      The type of conversion ('decimal' | 'whole').
+	 *
+	 * @param    int|float       $value     The value to format.
+	 * @param    string          $cur       The currency.
+	 * @param    string          $type      The type of conversion ('decimal' | 'whole').
+	 *
 	 * @return   int|float                  The updated value.
 	 */
 	public function amount( $value, $curr = 'usd', $type = 'decimal' ) {
@@ -74,8 +77,10 @@ class WP_Generous_Currency {
 	 * Format specified value as decimal.
 	 *
 	 * @since    0.1.0
-	 * @var      int            $value      The value to format.
-	 * @var      int            $dec_place  The decimal place.
+	 *
+	 * @param    int            $value      The value to format.
+	 * @param    int            $dec_place  The decimal place.
+	 *
 	 * @return   string                     The updated value.
 	 */
 	public function decimal( $value, $dec_place = 2 ) {
@@ -86,8 +91,10 @@ class WP_Generous_Currency {
 	 * Round to whole number, if (technically) allowed.
 	 *
 	 * @since    0.1.0
-	 * @var      int            $value      The value to convert.
-	 * @var      int            $dec_place  The decimal place to use.
+	 *
+	 * @param    int            $value      The value to convert.
+	 * @param    int            $dec_place  The decimal place to use.
+	 *
 	 * @return   int|float                  The updated value.
 	 */
 	public function whole( $value, $dec_place = 2 ) {
@@ -109,7 +116,9 @@ class WP_Generous_Currency {
 	 * (Temporary) Ensure rounding is correct.
 	 *
 	 * @since    0.1.0
-	 * @var      int|float      $value      The value to convert.
+	 *
+	 * @param    int|float      $value      The value to convert.
+	 *
 	 * @return   int|float                  The updated value.
 	 */
 	public function round( $value ) {
@@ -127,7 +136,9 @@ class WP_Generous_Currency {
 	 * Get the symbol for a curency.
 	 *
 	 * @since    0.1.0
-	 * @var      string         $curr       The type of currency.
+	 *
+	 * @param    string         $curr       The type of currency.
+	 *
 	 * @return   string                     The symbol.
 	 */
 	public function symbol( $curr = 'usd' ) {

@@ -16,6 +16,7 @@ class WP_Generous_Api {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      WP_Generous_Api     $instance           The instance of this class.
 	 */
 	public static $instance;
@@ -25,6 +26,7 @@ class WP_Generous_Api {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      array               $plugin_options     The settings of the plugin.
 	 */
 	private $plugin_options;
@@ -33,10 +35,10 @@ class WP_Generous_Api {
 	 * Obtain the original instance that was created.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    WP_Generous_Api                        The instance of this class.
 	 */
-	public static function obtain( $plugin_options = false )
-	{
+	public static function obtain( $plugin_options = false ) {
 
 		if ( ! self::$instance ) { 
 			self::$instance = new WP_Generous_Api( $plugin_options );
@@ -55,9 +57,10 @@ class WP_Generous_Api {
 	 *
 	 * @since     0.1.0
 	 * @access    private
+	 *
 	 * @return    array|false             The Api response.
 	 */
-	private function request( $method, $endpoint, $params = array() ) {
+	public function request( $method, $endpoint, $params = array() ) {
 
 		$data = Generous::customRequest( $method, $endpoint, $params );
 
@@ -73,6 +76,7 @@ class WP_Generous_Api {
 	 * Get the account name for the specified account.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    array|false             Account data.
 	 */
 	public function get_account( $id = false ) {
@@ -89,7 +93,9 @@ class WP_Generous_Api {
 	 * Get the default store sliders.
 	 *
 	 * @since     0.1.0
-	 * @var       int|bool       $paged   The requested page number.
+	 *
+	 * @param     int|bool       $paged   The requested page number.
+	 *
 	 * @return    array|false             Default store data.
 	 */
 	public function get_store_default( $paged = false ) {
@@ -115,6 +121,7 @@ class WP_Generous_Api {
 	 * Get the list of categories for the specified account.
 	 *
 	 * @since     0.1.0
+	 *
 	 * @return    array|false             Categories data.
 	 */
 	public function get_categories() {
@@ -125,8 +132,10 @@ class WP_Generous_Api {
 	 * Get the category data for the specified id.
 	 *
 	 * @since     0.1.0
-	 * @var       string         $id      Category id.
-	 * @var       int|bool       $paged   The requested page number.
+	 *
+	 * @param     string         $id      Category id.
+	 * @param     int|bool       $paged   The requested page number.
+	 *
 	 * @return    array|false             Category data.
 	 */
 	public function get_category( $id, $paged = false ) {
@@ -152,19 +161,36 @@ class WP_Generous_Api {
 	 * Get the slider data for the specified id.
 	 *
 	 * @since     0.1.0
-	 * @var       string         $id      Slider id.
+	 *
+	 * @param     string         $id      Slider id.
+	 *
+	 * @return    array                   Category data.
+	 */
+	public function get_store_slider( $id ) {
+		return $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/slider/{$id}" );
+	}
+
+	/**
+	 * Get the slider data for the specified id.
+	 *
+	 * @since     0.1.0
+	 *
+	 * @param     string         $id      Slider id.
+	 *
 	 * @return    array                   Category data.
 	 */
 	public function get_slider( $id ) {
-		return $this->request( 'GET', "accounts/{$this->plugin_options['username']}/store/slider/{$id}" );
+		return $this->request( 'GET', "sliders/{$id}" );
 	}
 
 	/**
 	 * Get the (uknown) data for the specified (slug) id.
 	 *
 	 * @since     0.1.0
-	 * @var       string         $id      Slug (category or slider).
-	 * @var       int|bool       $paged   The requested page number.
+	 *
+	 * @param     string         $id      Slug (category or slider).
+	 * @param     int|bool       $paged   The requested page number.
+	 *
 	 * @return    array                   Unknown data.
 	 */
 	public function get_unknown( $id, $paged = false ) {

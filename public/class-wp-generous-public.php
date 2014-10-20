@@ -18,6 +18,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      string                           $name          The ID of this plugin.
 	 */
 	private $name;
@@ -27,6 +28,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      string                           $version       The current version of this plugin.
 	 */
 	private $version;
@@ -36,6 +38,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      array                            $options       The settings of the plugin.
 	 */
 	private $options;
@@ -46,6 +49,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Loader               $loader        Maintains and registers all hooks for the plugin.
 	 */
 	private $loader;
@@ -55,6 +59,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Api                  $api           Maintains all Generous API requests.
 	 */
 	private $api;
@@ -64,6 +69,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Output        $output        Maintains methods to convert data to html templates.
 	 */
 	private $output;
@@ -73,6 +79,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Shortcodes    $shortcodes    Maintains callbacks for the shortcodes.
 	 */
 	private $shortcodes;
@@ -82,6 +89,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Data          $data          Saves and retrieves data.
 	 */
 	private $data;
@@ -91,6 +99,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Query         $query         Maintains methods to create phantom Wordpress queries.
 	 */
 	private $query;
@@ -100,6 +109,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Templates      $templates     Loads user or default templates.
 	 */
 	private $templates;
@@ -108,11 +118,12 @@ class WP_Generous_Public {
 	 * Initialize the class, set its properties, and load depenencies.
 	 *
 	 * @since    0.1.0
-	 * @var      string                           $name          The name of the plugin.
-	 * @var      string                           $version       The version of this plugin.
-	 * @var      array                            $options       The settings of the plugin.
-	 * @var      WP_Generous_Loader               $loader        Register all actions and filters for the plugin.
-	 * @var      WP_Generous_Api                  $api           Maintains requests to the Generous Api.
+	 *
+	 * @param    string                           $name          The name of the plugin.
+	 * @param    string                           $version       The version of this plugin.
+	 * @param    array                            $options       The settings of the plugin.
+	 * @param    WP_Generous_Loader               $loader        Register all actions and filters for the plugin.
+	 * @param    WP_Generous_Api                  $api           Maintains requests to the Generous Api.
 	 */
 	public function __construct( $name, $version, $options, $loader, $api ) {
 
@@ -191,7 +202,7 @@ class WP_Generous_Public {
 	 */
 	public function enqueue_scripts() {
 
-		wp_register_script( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/js/wp-generous.min.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->name, plugin_dir_url( dirname( __FILE__ ) ) . 'assets/js/wp-generous.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->name );
 
 		wp_register_script( "{$this->name}-js", 'http://js.genero.us/', array(), $this->version, false );
@@ -276,7 +287,9 @@ class WP_Generous_Public {
 	 * Register the custom templates for the public-facing side of the site.
 	 *
 	 * @since    0.1.0
-	 * @var      array     $template   The original template.
+	 *
+	 * @param    array     $template   The original template.
+	 *
 	 * @return   string                The replaced (or original) template.
 	 */
 	public function add_custom_templates( $template ) {
@@ -325,7 +338,9 @@ class WP_Generous_Public {
 	 * Register custom pages for the public-facing side of the site.
 	 *
 	 * @since    0.1.0
-	 * @var      array     $posts      The original Wordpress posts.
+	 *
+	 * @param    array     $posts      The original Wordpress posts.
+	 *
 	 * @return   array                 The updated (or original) Wordpress posts.
 	 */
 	public function add_custom_page( $posts ) {
@@ -384,9 +399,11 @@ class WP_Generous_Public {
 	 * Checks for required plugin options, and retrieves and saves data from Api.
 	 *
 	 * @since    0.1.0
-	 * @var      array     $query_var  The requested query variable.
-	 * @var      string    $id         The value of the query variable.
-	 * @var      int|bool  $paged      The requested page number.
+	 *
+	 * @param    array     $query_var  The requested query variable.
+	 * @param    string    $id         The value of the query variable.
+	 * @param    int|bool  $paged      The requested page number.
+	 *
 	 * @return   array                 The retrieved data.
 	 */
 	public function get_data( $query_var, $id, $paged = false ) {
@@ -441,9 +458,11 @@ class WP_Generous_Public {
 	 * Register the filter to replace the spacing on titles for taxonomy requested pages.
 	 *
 	 * @since    0.1.0
-	 * @var      string     $title     The original title.
-	 * @var      string     $sep       The separator string.
-	 * @var      string     $sep_loc   The location of the separator.
+	 *
+	 * @param    string     $title     The original title.
+	 * @param    string     $sep       The separator string.
+	 * @param    string     $sep_loc   The location of the separator.
+	 *
 	 * @return   string                The replaced (or original) title.
 	 */
 	public function remove_tax_name_from_title( $title, $sep = '', $sep_loc = 'left' ) {
@@ -469,7 +488,8 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string     $tag      The tag to add.
+	 *
+	 * @param    string     $tag      The tag to add.
 	 */
 	private function set_rewrite_tag( $tag ) {
 
@@ -485,8 +505,9 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string     $slug     The taxonomy to add.
-	 * @var      string     $type     The type of Wordpress post.
+	 *
+	 * @param    string     $slug     The taxonomy to add.
+	 * @param    string     $type     The type of Wordpress post.
 	 */
 	private function register_taxonomy( $slug, $type ) {
 
@@ -512,6 +533,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @return   bool                 True if yes, false if no.
 	 */
 	private function is_default() {
@@ -539,6 +561,7 @@ class WP_Generous_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @return   bool                 True if yes, false if no.
 	 */
 	private function has_required_options() {

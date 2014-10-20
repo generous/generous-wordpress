@@ -16,6 +16,7 @@ class WP_Generous_Public_Post {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      string   $type         Current key being looped. ('categories' || 'sliders')
 	 */
 	public $type;
@@ -25,6 +26,7 @@ class WP_Generous_Public_Post {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      array    $data         Current key being looped.
 	 */
 	public $data;
@@ -34,6 +36,7 @@ class WP_Generous_Public_Post {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      int      $index        Current key being looped.
 	 */
 	public $index;
@@ -43,6 +46,7 @@ class WP_Generous_Public_Post {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      int      $total        The total items.
 	 */
 	public $total;
@@ -52,6 +56,7 @@ class WP_Generous_Public_Post {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      string   $permalink    The root permalink of the url.
 	 */
 	public $permalink;
@@ -60,9 +65,10 @@ class WP_Generous_Public_Post {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @var      string   $type         The type of data. ('categories' || 'sliders')
-	 * @var      array    $data         The data of the specified type.
-	 * @var      array    $permalink    The root permalink of the url.
+	 *
+	 * @param    string   $type         The type of data. ('categories' || 'sliders')
+	 * @param    array    $data         The data of the specified type.
+	 * @param    array    $permalink    The root permalink of the url.
 	 */
 	public function __construct( $type, $data, $permalink ) {
 
@@ -91,6 +97,7 @@ class WP_Generous_Public_Post {
 	 * Gets the current data.
 	 *
 	 * @since    0.1.0
+	 *
 	 * @return   array                  The current data.
 	 */
 	public function get_data() {
@@ -101,6 +108,7 @@ class WP_Generous_Public_Post {
 	 * Gets the title.
 	 *
 	 * @since    0.1.0
+	 *
 	 * @return   string                 The title to output.
 	 */
 	public function get_title() {
@@ -119,7 +127,9 @@ class WP_Generous_Public_Post {
 	 * Gets the permalink.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $options      The settings of the plugin.
+	 *
+	 * @param    array    $options      The settings of the plugin.
+	 *
 	 * @return   string                 The url to output.
 	 */
 	public function get_permalink( $options = false) {
@@ -145,6 +155,7 @@ class WP_Generous_Public_Post {
 	 * Gets the content.
 	 *
 	 * @since    0.1.0
+	 *
 	 * @return   html                   The html of the content to output.
 	 */
 	public function get_content() {

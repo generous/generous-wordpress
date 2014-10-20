@@ -9,14 +9,14 @@ module.exports = function(grunt) {
         },
         paths: {
           js: {
-            frontend: {
+            pub: {
               src: '<%=wp_g.assets.path.src%>/js/public/**/*.js',
-              dest: '<%=wp_g.assets.path.build%>/js/wp-generous.js',
-              min: '<%=wp_g.assets.path.build%>/js/wp-generous.min.js'
+              dest: '<%=wp_g.assets.path.build%>/js/wp-generous.dev.js',
+              min: '<%=wp_g.assets.path.build%>/js/wp-generous.js'
             }
           },
           sass: {
-            frontend: {
+            pub: {
               src: '<%=wp_g.assets.path.src%>/sass/public.scss',
               dest: '<%=wp_g.assets.path.build%>/css/wp-generous.css'
             }
@@ -26,21 +26,18 @@ module.exports = function(grunt) {
     },
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-      frontend: {
+      pub: {
         options: {
           separator: '\n\n'
         },
-        src: '<%=wp_g.assets.paths.js.frontend.src%>',
-        dest: '<%=wp_g.assets.paths.js.frontend.dest%>'
+        src: '<%=wp_g.assets.paths.js.pub.src%>',
+        dest: '<%=wp_g.assets.paths.js.pub.dest%>'
       }
     },
     uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> (<%= pkg.version %>) */\n'
-      },
       dist: {
         files: {
-          '<%=wp_g.assets.paths.js.frontend.min%>': ['<%=wp_g.assets.paths.js.frontend.dest%>']
+          '<%=wp_g.assets.paths.js.pub.min%>': ['<%=wp_g.assets.paths.js.pub.dest%>']
         }
       }
     },
@@ -52,12 +49,12 @@ module.exports = function(grunt) {
           sourcemap: 'none'
         },
         files: {
-          '<%=wp_g.assets.paths.sass.frontend.dest%>': '<%=wp_g.assets.paths.sass.frontend.src%>'
+          '<%=wp_g.assets.paths.sass.pub.dest%>': '<%=wp_g.assets.paths.sass.pub.src%>'
         }
       }
     },
     clean: {
-      build: ['<%=wp_g.assets.paths.js.frontend.dest%>']
+      build: ['<%=wp_g.assets.paths.js.pub.dest%>']
     },
     watch: {
       scss: {

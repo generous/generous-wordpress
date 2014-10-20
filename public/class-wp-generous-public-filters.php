@@ -11,7 +11,24 @@
  */
 class WP_Generous_Public_Filters {
 
+	/**
+	 * Used for formatting prices.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 *
+	 * @var      WP_Generous_Formatter    $formatter         Maintains methods for formatting.
+	 */
 	private $formatter;
+
+	/**
+	 * Properly converts currencies for displaying.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 *
+	 * @var      WP_Generous_Currency     $currency          Maintains methods for currency.
+	 */
 	private $currency;
 
 	/**
@@ -28,8 +45,10 @@ class WP_Generous_Public_Filters {
 	 * Converts slider filters to slider data.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data         Data to replace the filter with.
-	 * @var      array    $content      Content to search within.
+	 *
+	 * @param    array    $data         Data to replace the filter with.
+	 * @param    array    $content      Content to search within.
+	 *
 	 * @return   string                 New content with replaced filters.
 	 */
 	public function slider( $data, $content ) {
@@ -85,8 +104,10 @@ class WP_Generous_Public_Filters {
 	 * Converts category filters to category data.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $data         Data to replace the filter with.
-	 * @var      array    $content      Content to search within.
+	 *
+	 * @param    array    $data         Data to replace the filter with.
+	 * @param    array    $content      Content to search within.
+	 *
 	 * @return   string                 New content with replaced filters.
 	 */
 	public function category( $data, $content ) {
@@ -109,9 +130,11 @@ class WP_Generous_Public_Filters {
 	 * Replaces the specified filter with the proper data.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $filter       Filtert to search for.
-	 * @var      array    $data         Data to replace the filter with.
-	 * @var      array    $content      Content to search within.
+	 *
+	 * @param    array    $filter       Filtert to search for.
+	 * @param    array    $data         Data to replace the filter with.
+	 * @param    array    $content      Content to search within.
+	 *
 	 * @return   string                 New content with replace filters.
 	 */
 	private function convert( $filter, $data, $content ) {

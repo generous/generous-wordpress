@@ -16,7 +16,9 @@ class WP_Generous_Public_Templates {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string     $id       The id of the template to load.
+	 *
+	 * @param    string     $id       The id of the template to load.
+	 *
 	 * @return   string               The file path to the template.
 	 */
 	public function load( $id ) {

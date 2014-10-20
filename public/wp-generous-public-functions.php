@@ -69,8 +69,8 @@ function wp_generous_the_permalink() {
  * Outputs the pagination of a specified category.
  *
  * @since    0.1.0
- * @var      string         $prev_arrow   The previous arrow label.
- * @var      string         $prev_arrow   The next arrow label.
+ * @param    string         $prev_arrow   The previous arrow label.
+ * @param    string         $prev_arrow   The next arrow label.
  */
 function wp_generous_pagination( $prev_arrow = '&larr;', $next_arrow = '&rarr;' ) {
 

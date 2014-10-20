@@ -16,6 +16,7 @@ class WP_Generous_Public_Posts {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      WP_Generous_Public_Posts         $instance     The instance of this class.
 	 */
 	public static $instance;
@@ -25,6 +26,7 @@ class WP_Generous_Public_Posts {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      string                           $data         The key-stored data to loop.
 	 */
 	public $data = array();
@@ -34,6 +36,7 @@ class WP_Generous_Public_Posts {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      string                           $current      Current key being looped.
 	 */
 	public $current;
@@ -43,6 +46,7 @@ class WP_Generous_Public_Posts {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      array                            $options      The settings of the plugin.
 	 */
 	private $options;
@@ -51,8 +55,10 @@ class WP_Generous_Public_Posts {
 	 * Obtain the original instance that was created.
 	 *
 	 * @since     0.1.0
-	 * @var      string                           $type         The key to obtain. ('categories' || 'sliders')
-	 * @var      array                            $data         Array of items to be looped.
+	 *
+	 * @param    string                           $type         The key to obtain. ('categories' || 'sliders')
+	 * @param    array                            $data         Array of items to be looped.
+	 *
 	 * @return    WP_Generous_Public_Posts                      The instance of this class.
 	 */
 	public static function obtain( $type = NULL, $data = NULL ) {
@@ -74,8 +80,9 @@ class WP_Generous_Public_Posts {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $type     The key to add. ('categories' || 'sliders')
-	 * @var      array     $data     Array of items to be looped.
+	 *
+	 * @param    string    $type     The key to add. ('categories' || 'sliders')
+	 * @param    array     $data     Array of items to be looped.
 	 */
 	private function add( $type, $data ) {
 		$this->data[ $type ] = new WP_Generous_Public_Post( $type, $data, $this->options['permalink'] );
@@ -85,7 +92,9 @@ class WP_Generous_Public_Posts {
 	 * Checks to see if there's more data to access.
 	 *
 	 * @since    0.1.0
-	 * @var      string    $type     The key to check: 'categories' || 'sliders'
+	 *
+	 * @param    string    $type     The key to check: 'categories' || 'sliders'
+	 *
 	 * @return   bool                True if yes, false if no.
 	 */
 	public function have( $type ) {
@@ -140,8 +149,10 @@ class WP_Generous_Public_Posts {
 	 * Outputs the pagination of the current category.
 	 *
 	 * @since    0.1.0
-	 * @var      string         $prev_arrow   The previous arrow label.
-	 * @var      string         $prev_arrow   The next arrow label.
+	 *
+	 * @param    string         $prev_arrow   The previous arrow label.
+	 * @param    string         $prev_arrow   The next arrow label.
+	 *
 	 * @return   string                       The html content of pagination.
 	 */
 	public function get_pagination( $prev_arrow = '&larr;', $next_arrow = '&rarr;' ) {
@@ -209,7 +220,8 @@ class WP_Generous_Public_Posts {
 	 * Sets the plugin options.
 	 *
 	 * @since    0.1.0
-	 * @var      array          $options      The settings of the plugin.
+	 *
+	 * @param    array          $options      The settings of the plugin.
 	 */
 	public function set_options( $options ) {
 		$this->options = $options;
@@ -219,7 +231,9 @@ class WP_Generous_Public_Posts {
 	 * Register the url for the_permalink.
 	 *
 	 * @since    0.1.0
-	 * @var      array          $url          The current url.
+	 *
+	 * @param    array          $url          The current url.
+	 *
 	 * @return   string                       The url of the item being looped.
 	 */
 	public function custom_the_permalink( $url ) {

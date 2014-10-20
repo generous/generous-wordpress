@@ -16,6 +16,7 @@ class WP_Generous_Public_Data {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      array          $data     Response data with keys set as the slug id.
 	 */
 	public $data = array();
@@ -24,8 +25,9 @@ class WP_Generous_Public_Data {
 	 * Saves specified data.
 	 *
 	 * @since    0.1.0
-	 * @var      array          $key      The key used for retrieving data.
-	 * @var      array          $val      The data to save.
+	 *
+	 * @param    array          $key      The key used for retrieving data.
+	 * @param    array          $val      The data to save.
 	 */
 	public function add( $key, $val ) {
 		if ( isset( $val ) && ! isset( $val['error'] ) ) {
@@ -39,7 +41,9 @@ class WP_Generous_Public_Data {
 	 * Get data based on the specified key/id.
 	 *
 	 * @since    0.1.0
-	 * @var      array          $key      The key to retrieve, (usually) based on a slug or id.
+	 *
+	 * @param    array          $key      The key to retrieve, (usually) based on a slug or id.
+	 *
 	 * @return   array|false              The reqested data.
 	 */
 	public function get( $key ) {

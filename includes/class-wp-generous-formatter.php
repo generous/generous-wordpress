@@ -16,16 +16,18 @@ class WP_Generous_Formatter {
 	 *
 	 * @since    0.1.0
 	 * @access   public
+	 *
 	 * @var      WP_Generous_Formatter     $instance     The instance of this class.
 	 */
 	public static $instance;
 
 	/**
-	 * Singleton instance of this class.
+	 * Properly converts currencies for displaying.
 	 *
 	 * @since    0.1.0
-	 * @access   public
-	 * @var      WP_Generous_Currency      $instance     Handles currency methods.
+	 * @access   private
+	 *
+	 * @var      WP_Generous_Currency      $instance     Maintains methods for currency.
 	 */
 	private $currency;
 
@@ -33,10 +35,10 @@ class WP_Generous_Formatter {
 	 * Obtain the original instance that was created.
 	 *
 	 * @since    0.1.0
+	 *
 	 * @return   WP_Generous_Formatter                   The instance of this class.
 	 */
-	public static function obtain()
-	{
+	public static function obtain() {
 		if ( ! self::$instance ) { 
 			self::$instance = new WP_Generous_Formatter();
 			self::$instance->currency = WP_Generous_Currency::obtain();
@@ -49,9 +51,11 @@ class WP_Generous_Formatter {
 	 * Properly formats specified amount, and  (optional) prepends currency symbol.
 	 *
 	 * @since    0.1.0
-	 * @var      int|string     $amount     The amount.
-	 * @var      string         $curr       The type of currency.
-	 * @var      bool           $symbol     Prepend symbol?
+	 *
+	 * @param    int|string     $amount     The amount.
+	 * @param    string         $curr       The type of currency.
+	 * @param    bool           $symbol     Prepend symbol?
+	 *
 	 * @return   string                     Formatted amount.
 	 */
 	public function price( $amount, $curr = 'usd', $symbol = true ) {
@@ -70,9 +74,11 @@ class WP_Generous_Formatter {
 	 * Sets format of specified amount as a whole number, and (optional) prepends currency symbol.
 	 *
 	 * @since    0.1.0
-	 * @var      int|string     $amount     The amount.
-	 * @var      string         $curr       The type of currency.
-	 * @var      bool           $symbol     Prepend symbol?
+	 *
+	 * @param    int|string     $amount     The amount.
+	 * @param    string         $curr       The type of currency.
+	 * @param    bool           $symbol     Prepend symbol?
+	 *
 	 * @return   string                     Formatted amount.
 	 */
 	public function price_whole( $amount, $curr = 'usd', $symbol = true ) {

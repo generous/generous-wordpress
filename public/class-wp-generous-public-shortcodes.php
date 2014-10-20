@@ -18,6 +18,7 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Api              $api        Maintains requests to the Generous API.
 	 */
 	private $api;
@@ -27,6 +28,7 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @var      WP_Generous_Public_Output    $output     Maintains methods to convert data to html templates.
 	 */
 	private $output;
@@ -35,8 +37,9 @@ class WP_Generous_Public_Shortcodes {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $options    The settings of the plugin.
-	 * @var      array    $api        Maintains all Generous API requests.
+	 *
+	 * @param    array    $options    The settings of the plugin.
+	 * @param    array    $api        Maintains all Generous API requests.
 	 */
 	public function __construct( $options, $api, $output ) {
 
@@ -49,7 +52,9 @@ class WP_Generous_Public_Shortcodes {
 	 * Load the specified shortcode attributes.
 	 *
 	 * @since    0.1.0
-	 * @var      array    $atts       Specified shortcode attributes.
+	 *
+	 * @param    array    $atts       Specified shortcode attributes.
+	 *
 	 * @return   string               The rendered html to output.
 	 */
 	public function load( $atts ) {
@@ -95,6 +100,7 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @return   string              The rendered html to output.
 	 */
 	private function wrapper( $func, $atts ) {
@@ -110,6 +116,7 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @return   string              The rendered html to output.
 	 */
 	private function store($atts) {
@@ -123,6 +130,7 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
+	 *
 	 * @return   string              The rendered html to output.
 	 */
 	private function categories() {
@@ -142,7 +150,9 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $id       Specified category id.
+	 *
+	 * @param    string    $id       Specified category id.
+	 *
 	 * @return   string              The rendered html to output.
 	 */
 	private function page( $id ) {
@@ -164,7 +174,9 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $id       Specified category id.
+	 *
+	 * @param    string    $id       Specified category id.
+	 *
 	 * @return   string              The rendered html to output.
 	 */
 	private function category( $id ) {
@@ -186,12 +198,14 @@ class WP_Generous_Public_Shortcodes {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $id       Specified category id.
+	 *
+	 * @param    string    $id       Specified category id.
+	 *
 	 * @return   string              The rendered html to output.
 	 */
 	private function slider( $id ) {
 
-		$data = $this->api->get_slider( $id );
+		$data = $this->api->get_store_slider( $id );
 
 		if ( false !== $data ) {
 			return $this->output->slider( $data['slider'] );
