@@ -55,35 +55,54 @@ class WP_Generous_Public_Filters {
 
 		$filters = array();
 
+		// [title]
 		if ( isset( $data['title'] ) ) {
 			$filters['title'] = $data['title'];
 		}
 
+		// [cover_photo]
 		if ( isset( $data['cover_photo'], $data['default_photo']['small'] ) ) {
 			$filters['cover_photo'] = $data['default_photo']['small'];
 		}
 
+		// [suggested_price] & [suggested_price_whole]
 		if ( isset( $data['suggested_price'] ) ) {
 			$filters['suggested_price'] = $this->formatter->price( $data['suggested_price'], $data['currency'], false );
 			$filters['suggested_price_whole'] = $this->formatter->price_whole( $data['suggested_price'], $data['currency'], false );
 		}
 		
+		// [currency_symbol]
 		if ( isset( $data['currency'] ) ) {
 			$filters['currency_symbol'] = $this->currency->symbol( $data['currency'] );
 		}
 
-		if ( isset( $data['items'] ) ) {
-			$filters['item_total'] = count( $data['items'] );
+		// [additional_info]
+		if ( isset( $data['additional_info'] ) ) {
+			$filters['additional_info'] = $data['additional_info'];
 		}
 
+		// [charity_percentage]
+		if ( isset( $data['charity_percentage'] ) ) {
+			$filters['charity_percentage'] = $data['charity_percentage'];
+		}
+
+		// [button_slider_overlay]
 		if ( isset( $data['short_url'] ) ) {
 			$filters['button_slider_overlay'] = $data['short_url'];
 		}
 
-		if ( isset( $data['items'] ) ) {
+		if ( isset( $data['items'] ) && is_array($data['items']) ) {
 
+			// [item_total]
 			$filters['item_total'] = count( $data['items'] );
 
+			// [minimum_price] & [minimum_price_whole]
+			if ( isset( $data['items'][0], $data['items'][0]['minimum_price'] ) ) {
+				$filters['minimum_price'] = $this->formatter->price( $data['items'][0]['minimum_price'], $data['currency'], false );
+				$filters['minimum_price_whole'] = $this->formatter->price_whole( $data['items'][0]['minimum_price'], $data['currency'], false );
+			}
+
+			// [item_total_label]
 			if( $filters['item_total'] === 1 ) {
 				$filters['item_total_label'] = _x( 'Item', '1 Item' );
 			} else {
