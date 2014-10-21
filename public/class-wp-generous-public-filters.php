@@ -55,6 +55,11 @@ class WP_Generous_Public_Filters {
 
 		$filters = array();
 
+		// [slider_id]
+		if ( isset( $data['id'] ) ) {
+			$filters['slider_id'] = $data['id'];
+		}
+
 		// [title]
 		if ( isset( $data['title'] ) ) {
 			$filters['title'] = $data['title'];
@@ -91,7 +96,7 @@ class WP_Generous_Public_Filters {
 			$filters['button_slider_overlay'] = $data['short_url'];
 		}
 
-		if ( isset( $data['items'] ) && is_array($data['items']) ) {
+		if ( isset( $data['items'] ) && is_array( $data['items'] ) ) {
 
 			// [item_total]
 			$filters['item_total'] = count( $data['items'] );
