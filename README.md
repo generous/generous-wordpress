@@ -69,3 +69,7 @@ Filters allow you to output requested data within your templates.
 *category-item.php*
 
 - `[title]` - Title
+
+## Contributing
+
+If you stumbled upon an issue with the Generous plugin, or would like to patch a bug, please read our [guidelines](https://github.com/generous/generous-wordpress/blob/master/CONTRIBUTING.md) for more information.
