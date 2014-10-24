@@ -6,6 +6,7 @@
  * Outputs the slider item.
  *
  * Used by:
+ * - ../page-default.php
  * - ../page-category.php
  * - ../shortcode-category.php
  *

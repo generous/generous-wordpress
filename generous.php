@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Generous
  * Plugin URI:        https://github.com/generous/generous-wordpress
- * Description:       Integrate Generous sliders within your website. Official Generous plugin.
+ * Description:       The official Generous plugin that allows you to easily generate a store.
  * Version:           0.1.0
  * Author:            Generous
  * Author URI:        https://genero.us

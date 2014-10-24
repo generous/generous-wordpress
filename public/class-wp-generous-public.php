@@ -250,7 +250,6 @@ class WP_Generous_Public {
 			'top'
 		);
 
-
 	}
 
 	/**

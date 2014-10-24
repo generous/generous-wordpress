@@ -63,15 +63,7 @@ module.exports = function(grunt) {
       },
       concat: {
         files: ['<%=wp_g.assets.path.src%>/js/**/*.js'],
-        tasks: ['concat']
-      },
-      uglify: {
-        files: ['<%=wp_g.assets.path.src%>/js/**/*.js'],
-        tasks: ['uglify']
-      },
-      clean: {
-        files: ['<%=wp_g.assets.path.build%>/js/**/*.js'],
-        tasks: ['clean']
+        tasks: ['concat', 'uglify', 'clean']
       }
     }
   });
