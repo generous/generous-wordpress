@@ -1,7 +1,7 @@
 {
   "name": "generous-wordpress",
   "description": "The official Generous Wordpress plugin.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://genero.us/",
   "repository": {
     "type": "git",
